@@ -1,0 +1,2689 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"7 H:\8bit-RGB\effects.c
+[c E587 0 1 2 3 4 5 6 7 .. ]
+[n E587 . EFFECT_BREATH EFFECT_TWINKLE EFFECT_CHASE EFFECT_EXPAND EFFECT_MARQUEE EFFECT_STACK EFFECT_POLICE EFFECT_COUNT  ]
+"27 H:\8bit-RGB\config.h
+[s S1 `uc 1 `uc 1 `uc 1 ]
+[n S1 . r g b ]
+"85 H:\8bit-RGB\effects.c
+[s S25 `uc 1 `uc 1 `uc 1 ]
+[n S25 . pos phase speed ]
+[v F604 `(v ~T0 @X0 0 tf ]
+[v F607 `(v ~T0 @X0 0 tf ]
+"34 H:\8bit-RGB\config.h
+[s S2 `*F604 1 `*F607 1 ]
+[n S2 . init update ]
+[; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
+[; ;htc.h: 28: extern double __fpnormalize(double);
+[; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
+"5 F:\Program Files\SCMCU_IDE_V2.00.16\data\include\SC8F072.h
+[v _INDF `Vuc ~T0 @X0 1 e@0 ]
+[; ;SC8F072.h: 5: volatile unsigned char INDF @ 0x00;
+"6
+[v _OPTION_REG `Vuc ~T0 @X0 1 e@1 ]
+[; ;SC8F072.h: 6: volatile unsigned char OPTION_REG @ 0x01;
+"7
+[v _PCL `Vuc ~T0 @X0 1 e@2 ]
+[; ;SC8F072.h: 7: volatile unsigned char PCL @ 0x02;
+"8
+[v _STATUS `Vuc ~T0 @X0 1 e@3 ]
+[; ;SC8F072.h: 8: volatile unsigned char STATUS @ 0x03;
+"9
+[v _FSR `Vuc ~T0 @X0 1 e@4 ]
+[; ;SC8F072.h: 9: volatile unsigned char FSR @ 0x04;
+"10
+[v _TRISB `Vuc ~T0 @X0 1 e@5 ]
+[; ;SC8F072.h: 10: volatile unsigned char TRISB @ 0x05;
+"11
+[v _PORTB `Vuc ~T0 @X0 1 e@6 ]
+[; ;SC8F072.h: 11: volatile unsigned char PORTB @ 0x06;
+"12
+[v _WPDB `Vuc ~T0 @X0 1 e@7 ]
+[; ;SC8F072.h: 12: volatile unsigned char WPDB @ 0x07;
+"13
+[v _WPUB `Vuc ~T0 @X0 1 e@8 ]
+[; ;SC8F072.h: 13: volatile unsigned char WPUB @ 0x08;
+"14
+[v _IOCB `Vuc ~T0 @X0 1 e@9 ]
+[; ;SC8F072.h: 14: volatile unsigned char IOCB @ 0x09;
+"15
+[v _PCLATH `Vuc ~T0 @X0 1 e@10 ]
+[; ;SC8F072.h: 15: volatile unsigned char PCLATH @ 0x0A;
+"16
+[v _INTCON `Vuc ~T0 @X0 1 e@11 ]
+[; ;SC8F072.h: 16: volatile unsigned char INTCON @ 0x0B;
+"17
+[v _ODCONB `Vuc ~T0 @X0 1 e@12 ]
+[; ;SC8F072.h: 17: volatile unsigned char ODCONB @ 0x0C;
+"18
+[v _PIR1 `Vuc ~T0 @X0 1 e@13 ]
+[; ;SC8F072.h: 18: volatile unsigned char PIR1 @ 0x0D;
+"19
+[v _PIE1 `Vuc ~T0 @X0 1 e@14 ]
+[; ;SC8F072.h: 19: volatile unsigned char PIE1 @ 0x0E;
+"20
+[v _CMPCON0 `Vuc ~T0 @X0 1 e@15 ]
+[; ;SC8F072.h: 20: volatile unsigned char CMPCON0 @ 0x0F;
+"21
+[v _CMPCON1 `Vuc ~T0 @X0 1 e@16 ]
+[; ;SC8F072.h: 21: volatile unsigned char CMPCON1 @ 0x10;
+"22
+[v _PR2 `Vuc ~T0 @X0 1 e@17 ]
+[; ;SC8F072.h: 22: volatile unsigned char PR2 @ 0x11;
+"23
+[v _TMR2 `Vuc ~T0 @X0 1 e@18 ]
+[; ;SC8F072.h: 23: volatile unsigned char TMR2 @ 0x12;
+"24
+[v _T2CON `Vuc ~T0 @X0 1 e@19 ]
+[; ;SC8F072.h: 24: volatile unsigned char T2CON @ 0x13;
+"25
+[v _OSCCON `Vuc ~T0 @X0 1 e@20 ]
+[; ;SC8F072.h: 25: volatile unsigned char OSCCON @ 0x14;
+"26
+[v _PWMCON0 `Vuc ~T0 @X0 1 e@21 ]
+[; ;SC8F072.h: 26: volatile unsigned char PWMCON0 @ 0x15;
+"27
+[v _PWMCON1 `Vuc ~T0 @X0 1 e@22 ]
+[; ;SC8F072.h: 27: volatile unsigned char PWMCON1 @ 0x16;
+"28
+[v _PWMTL `Vuc ~T0 @X0 1 e@23 ]
+[; ;SC8F072.h: 28: volatile unsigned char PWMTL @ 0x17;
+"29
+[v _PWMTH `Vuc ~T0 @X0 1 e@24 ]
+[; ;SC8F072.h: 29: volatile unsigned char PWMTH @ 0x18;
+"30
+[v _PWMD0L `Vuc ~T0 @X0 1 e@25 ]
+[; ;SC8F072.h: 30: volatile unsigned char PWMD0L @ 0x19;
+"31
+[v _PWMD1L `Vuc ~T0 @X0 1 e@26 ]
+[; ;SC8F072.h: 31: volatile unsigned char PWMD1L @ 0x1A;
+"32
+[v _PWMD4L `Vuc ~T0 @X0 1 e@27 ]
+[; ;SC8F072.h: 32: volatile unsigned char PWMD4L @ 0x1B;
+"33
+[v _PWMT4L `Vuc ~T0 @X0 1 e@28 ]
+[; ;SC8F072.h: 33: volatile unsigned char PWMT4L @ 0x1C;
+"34
+[v _PWMCON2 `Vuc ~T0 @X0 1 e@29 ]
+[; ;SC8F072.h: 34: volatile unsigned char PWMCON2 @ 0x1D;
+"35
+[v _PWMD01H `Vuc ~T0 @X0 1 e@30 ]
+[; ;SC8F072.h: 35: volatile unsigned char PWMD01H @ 0x1E;
+"36
+[v _PWM01DT `Vuc ~T0 @X0 1 e@31 ]
+[; ;SC8F072.h: 36: volatile unsigned char PWM01DT @ 0x1F;
+"37
+[v _TMR0 `Vuc ~T0 @X0 1 e@129 ]
+[; ;SC8F072.h: 37: volatile unsigned char TMR0 @ 0x81;
+"38
+[v _TRISA `Vuc ~T0 @X0 1 e@133 ]
+[; ;SC8F072.h: 38: volatile unsigned char TRISA @ 0x85;
+"39
+[v _PORTA `Vuc ~T0 @X0 1 e@134 ]
+[; ;SC8F072.h: 39: volatile unsigned char PORTA @ 0x86;
+"40
+[v _WPDA `Vuc ~T0 @X0 1 e@135 ]
+[; ;SC8F072.h: 40: volatile unsigned char WPDA @ 0x87;
+"41
+[v _WPUA `Vuc ~T0 @X0 1 e@136 ]
+[; ;SC8F072.h: 41: volatile unsigned char WPUA @ 0x88;
+"42
+[v _IOCA `Vuc ~T0 @X0 1 e@137 ]
+[; ;SC8F072.h: 42: volatile unsigned char IOCA @ 0x89;
+"43
+[v _ODCONA `Vuc ~T0 @X0 1 e@140 ]
+[; ;SC8F072.h: 43: volatile unsigned char ODCONA @ 0x8C;
+"44
+[v _EECON1 `Vuc ~T0 @X0 1 e@141 ]
+[; ;SC8F072.h: 44: volatile unsigned char EECON1 @ 0x8D;
+"45
+[v _EECON2 `Vuc ~T0 @X0 1 e@142 ]
+[; ;SC8F072.h: 45: volatile unsigned char EECON2 @ 0x8E;
+"46
+[v _EEDAT `Vuc ~T0 @X0 1 e@143 ]
+[; ;SC8F072.h: 46: volatile unsigned char EEDAT @ 0x8F;
+"47
+[v _EEDATH `Vuc ~T0 @X0 1 e@144 ]
+[; ;SC8F072.h: 47: volatile unsigned char EEDATH @ 0x90;
+"48
+[v _EEADR `Vuc ~T0 @X0 1 e@145 ]
+[; ;SC8F072.h: 48: volatile unsigned char EEADR @ 0x91;
+"49
+[v _EEADRH `Vuc ~T0 @X0 1 e@146 ]
+[; ;SC8F072.h: 49: volatile unsigned char EEADRH @ 0x92;
+"50
+[v _ANSEL0 `Vuc ~T0 @X0 1 e@147 ]
+[; ;SC8F072.h: 50: volatile unsigned char ANSEL0 @ 0x93;
+"51
+[v _ANSEL1 `Vuc ~T0 @X0 1 e@148 ]
+[; ;SC8F072.h: 51: volatile unsigned char ANSEL1 @ 0x94;
+"52
+[v _ADCON0 `Vuc ~T0 @X0 1 e@149 ]
+[; ;SC8F072.h: 52: volatile unsigned char ADCON0 @ 0x95;
+"53
+[v _ADCON1 `Vuc ~T0 @X0 1 e@150 ]
+[; ;SC8F072.h: 53: volatile unsigned char ADCON1 @ 0x96;
+"54
+[v _ADRESL `Vuc ~T0 @X0 1 e@152 ]
+[; ;SC8F072.h: 54: volatile unsigned char ADRESL @ 0x98;
+"55
+[v _ADRESH `Vuc ~T0 @X0 1 e@153 ]
+[; ;SC8F072.h: 55: volatile unsigned char ADRESH @ 0x99;
+"56
+[v _PWMD2L `Vuc ~T0 @X0 1 e@155 ]
+[; ;SC8F072.h: 56: volatile unsigned char PWMD2L @ 0x9B;
+"57
+[v _PWMD3L `Vuc ~T0 @X0 1 e@156 ]
+[; ;SC8F072.h: 57: volatile unsigned char PWMD3L @ 0x9C;
+"58
+[v _PWM23DT `Vuc ~T0 @X0 1 e@157 ]
+[; ;SC8F072.h: 58: volatile unsigned char PWM23DT @ 0x9D;
+"59
+[v _PWMD23H `Vuc ~T0 @X0 1 e@158 ]
+[; ;SC8F072.h: 59: volatile unsigned char PWMD23H @ 0x9E;
+"61
+[v _T0LSE_EN `Vb ~T0 @X0 1 e@15 ]
+[; ;SC8F072.h: 61: volatile bit T0LSE_EN @ ((unsigned)&OPTION_REG*8)+7;
+"62
+[v _INTEDG `Vb ~T0 @X0 1 e@14 ]
+[; ;SC8F072.h: 62: volatile bit INTEDG @ ((unsigned)&OPTION_REG*8)+6;
+"63
+[v _T0CS `Vb ~T0 @X0 1 e@13 ]
+[; ;SC8F072.h: 63: volatile bit T0CS @ ((unsigned)&OPTION_REG*8)+5;
+"64
+[v _T0SE `Vb ~T0 @X0 1 e@12 ]
+[; ;SC8F072.h: 64: volatile bit T0SE @ ((unsigned)&OPTION_REG*8)+4;
+"65
+[v _PSA `Vb ~T0 @X0 1 e@11 ]
+[; ;SC8F072.h: 65: volatile bit PSA @ ((unsigned)&OPTION_REG*8)+3;
+"66
+[v _PS2 `Vb ~T0 @X0 1 e@10 ]
+[; ;SC8F072.h: 66: volatile bit PS2 @ ((unsigned)&OPTION_REG*8)+2;
+"67
+[v _PS1 `Vb ~T0 @X0 1 e@9 ]
+[; ;SC8F072.h: 67: volatile bit PS1 @ ((unsigned)&OPTION_REG*8)+1;
+"68
+[v _PS0 `Vb ~T0 @X0 1 e@8 ]
+[; ;SC8F072.h: 68: volatile bit PS0 @ ((unsigned)&OPTION_REG*8)+0;
+"71
+[v _IRP `Vb ~T0 @X0 1 e@31 ]
+[; ;SC8F072.h: 71: volatile bit IRP @ ((unsigned)&STATUS*8)+7;
+"72
+[v _RP1 `Vb ~T0 @X0 1 e@30 ]
+[; ;SC8F072.h: 72: volatile bit RP1 @ ((unsigned)&STATUS*8)+6;
+"73
+[v _RP0 `Vb ~T0 @X0 1 e@29 ]
+[; ;SC8F072.h: 73: volatile bit RP0 @ ((unsigned)&STATUS*8)+5;
+"74
+[v _TO `Vb ~T0 @X0 1 e@28 ]
+[; ;SC8F072.h: 74: volatile bit TO @ ((unsigned)&STATUS*8)+4;
+"75
+[v _PD `Vb ~T0 @X0 1 e@27 ]
+[; ;SC8F072.h: 75: volatile bit PD @ ((unsigned)&STATUS*8)+3;
+"76
+[v _Z `Vb ~T0 @X0 1 e@26 ]
+[; ;SC8F072.h: 76: volatile bit Z @ ((unsigned)&STATUS*8)+2;
+"77
+[v _DC `Vb ~T0 @X0 1 e@25 ]
+[; ;SC8F072.h: 77: volatile bit DC @ ((unsigned)&STATUS*8)+1;
+"78
+[v _C `Vb ~T0 @X0 1 e@24 ]
+[; ;SC8F072.h: 78: volatile bit C @ ((unsigned)&STATUS*8)+0;
+"81
+[v _TRISB7 `Vb ~T0 @X0 1 e@47 ]
+[; ;SC8F072.h: 81: volatile bit TRISB7 @ ((unsigned)&TRISB*8)+7;
+"82
+[v _TRISB6 `Vb ~T0 @X0 1 e@46 ]
+[; ;SC8F072.h: 82: volatile bit TRISB6 @ ((unsigned)&TRISB*8)+6;
+"83
+[v _TRISB5 `Vb ~T0 @X0 1 e@45 ]
+[; ;SC8F072.h: 83: volatile bit TRISB5 @ ((unsigned)&TRISB*8)+5;
+"84
+[v _TRISB4 `Vb ~T0 @X0 1 e@44 ]
+[; ;SC8F072.h: 84: volatile bit TRISB4 @ ((unsigned)&TRISB*8)+4;
+"85
+[v _TRISB3 `Vb ~T0 @X0 1 e@43 ]
+[; ;SC8F072.h: 85: volatile bit TRISB3 @ ((unsigned)&TRISB*8)+3;
+"86
+[v _TRISB2 `Vb ~T0 @X0 1 e@42 ]
+[; ;SC8F072.h: 86: volatile bit TRISB2 @ ((unsigned)&TRISB*8)+2;
+"87
+[v _TRISB1 `Vb ~T0 @X0 1 e@41 ]
+[; ;SC8F072.h: 87: volatile bit TRISB1 @ ((unsigned)&TRISB*8)+1;
+"88
+[v _TRISB0 `Vb ~T0 @X0 1 e@40 ]
+[; ;SC8F072.h: 88: volatile bit TRISB0 @ ((unsigned)&TRISB*8)+0;
+"91
+[v _RB7 `Vb ~T0 @X0 1 e@55 ]
+[; ;SC8F072.h: 91: volatile bit RB7 @ ((unsigned)&PORTB*8)+7;
+"92
+[v _RB6 `Vb ~T0 @X0 1 e@54 ]
+[; ;SC8F072.h: 92: volatile bit RB6 @ ((unsigned)&PORTB*8)+6;
+"93
+[v _RB5 `Vb ~T0 @X0 1 e@53 ]
+[; ;SC8F072.h: 93: volatile bit RB5 @ ((unsigned)&PORTB*8)+5;
+"94
+[v _RB4 `Vb ~T0 @X0 1 e@52 ]
+[; ;SC8F072.h: 94: volatile bit RB4 @ ((unsigned)&PORTB*8)+4;
+"95
+[v _RB3 `Vb ~T0 @X0 1 e@51 ]
+[; ;SC8F072.h: 95: volatile bit RB3 @ ((unsigned)&PORTB*8)+3;
+"96
+[v _RB2 `Vb ~T0 @X0 1 e@50 ]
+[; ;SC8F072.h: 96: volatile bit RB2 @ ((unsigned)&PORTB*8)+2;
+"97
+[v _RB1 `Vb ~T0 @X0 1 e@49 ]
+[; ;SC8F072.h: 97: volatile bit RB1 @ ((unsigned)&PORTB*8)+1;
+"98
+[v _RB0 `Vb ~T0 @X0 1 e@48 ]
+[; ;SC8F072.h: 98: volatile bit RB0 @ ((unsigned)&PORTB*8)+0;
+"101
+[v _WPDB7 `Vb ~T0 @X0 1 e@63 ]
+[; ;SC8F072.h: 101: volatile bit WPDB7 @ ((unsigned)&WPDB*8)+7;
+"102
+[v _WPDB6 `Vb ~T0 @X0 1 e@62 ]
+[; ;SC8F072.h: 102: volatile bit WPDB6 @ ((unsigned)&WPDB*8)+6;
+"103
+[v _WPDB5 `Vb ~T0 @X0 1 e@61 ]
+[; ;SC8F072.h: 103: volatile bit WPDB5 @ ((unsigned)&WPDB*8)+5;
+"104
+[v _WPDB4 `Vb ~T0 @X0 1 e@60 ]
+[; ;SC8F072.h: 104: volatile bit WPDB4 @ ((unsigned)&WPDB*8)+4;
+"105
+[v _WPDB3 `Vb ~T0 @X0 1 e@59 ]
+[; ;SC8F072.h: 105: volatile bit WPDB3 @ ((unsigned)&WPDB*8)+3;
+"106
+[v _WPDB2 `Vb ~T0 @X0 1 e@58 ]
+[; ;SC8F072.h: 106: volatile bit WPDB2 @ ((unsigned)&WPDB*8)+2;
+"107
+[v _WPDB1 `Vb ~T0 @X0 1 e@57 ]
+[; ;SC8F072.h: 107: volatile bit WPDB1 @ ((unsigned)&WPDB*8)+1;
+"108
+[v _WPDB0 `Vb ~T0 @X0 1 e@56 ]
+[; ;SC8F072.h: 108: volatile bit WPDB0 @ ((unsigned)&WPDB*8)+0;
+"111
+[v _WPUB7 `Vb ~T0 @X0 1 e@71 ]
+[; ;SC8F072.h: 111: volatile bit WPUB7 @ ((unsigned)&WPUB*8)+7;
+"112
+[v _WPUB6 `Vb ~T0 @X0 1 e@70 ]
+[; ;SC8F072.h: 112: volatile bit WPUB6 @ ((unsigned)&WPUB*8)+6;
+"113
+[v _WPUB5 `Vb ~T0 @X0 1 e@69 ]
+[; ;SC8F072.h: 113: volatile bit WPUB5 @ ((unsigned)&WPUB*8)+5;
+"114
+[v _WPUB4 `Vb ~T0 @X0 1 e@68 ]
+[; ;SC8F072.h: 114: volatile bit WPUB4 @ ((unsigned)&WPUB*8)+4;
+"115
+[v _WPUB3 `Vb ~T0 @X0 1 e@67 ]
+[; ;SC8F072.h: 115: volatile bit WPUB3 @ ((unsigned)&WPUB*8)+3;
+"116
+[v _WPUB2 `Vb ~T0 @X0 1 e@66 ]
+[; ;SC8F072.h: 116: volatile bit WPUB2 @ ((unsigned)&WPUB*8)+2;
+"117
+[v _WPUB1 `Vb ~T0 @X0 1 e@65 ]
+[; ;SC8F072.h: 117: volatile bit WPUB1 @ ((unsigned)&WPUB*8)+1;
+"118
+[v _WPUB0 `Vb ~T0 @X0 1 e@64 ]
+[; ;SC8F072.h: 118: volatile bit WPUB0 @ ((unsigned)&WPUB*8)+0;
+"121
+[v _IOCB7 `Vb ~T0 @X0 1 e@79 ]
+[; ;SC8F072.h: 121: volatile bit IOCB7 @ ((unsigned)&IOCB*8)+7;
+"122
+[v _IOCB6 `Vb ~T0 @X0 1 e@78 ]
+[; ;SC8F072.h: 122: volatile bit IOCB6 @ ((unsigned)&IOCB*8)+6;
+"123
+[v _IOCB5 `Vb ~T0 @X0 1 e@77 ]
+[; ;SC8F072.h: 123: volatile bit IOCB5 @ ((unsigned)&IOCB*8)+5;
+"124
+[v _IOCB4 `Vb ~T0 @X0 1 e@76 ]
+[; ;SC8F072.h: 124: volatile bit IOCB4 @ ((unsigned)&IOCB*8)+4;
+"125
+[v _IOCB3 `Vb ~T0 @X0 1 e@75 ]
+[; ;SC8F072.h: 125: volatile bit IOCB3 @ ((unsigned)&IOCB*8)+3;
+"126
+[v _IOCB2 `Vb ~T0 @X0 1 e@74 ]
+[; ;SC8F072.h: 126: volatile bit IOCB2 @ ((unsigned)&IOCB*8)+2;
+"127
+[v _IOCB1 `Vb ~T0 @X0 1 e@73 ]
+[; ;SC8F072.h: 127: volatile bit IOCB1 @ ((unsigned)&IOCB*8)+1;
+"128
+[v _IOCB0 `Vb ~T0 @X0 1 e@72 ]
+[; ;SC8F072.h: 128: volatile bit IOCB0 @ ((unsigned)&IOCB*8)+0;
+"131
+[v _GIE `Vb ~T0 @X0 1 e@95 ]
+[; ;SC8F072.h: 131: volatile bit GIE @ ((unsigned)&INTCON*8)+7;
+"132
+[v _PEIE `Vb ~T0 @X0 1 e@94 ]
+[; ;SC8F072.h: 132: volatile bit PEIE @ ((unsigned)&INTCON*8)+6;
+"133
+[v _T0IE `Vb ~T0 @X0 1 e@93 ]
+[; ;SC8F072.h: 133: volatile bit T0IE @ ((unsigned)&INTCON*8)+5;
+"134
+[v _INTE `Vb ~T0 @X0 1 e@92 ]
+[; ;SC8F072.h: 134: volatile bit INTE @ ((unsigned)&INTCON*8)+4;
+"135
+[v _RBIE `Vb ~T0 @X0 1 e@91 ]
+[; ;SC8F072.h: 135: volatile bit RBIE @ ((unsigned)&INTCON*8)+3;
+"136
+[v _T0IF `Vb ~T0 @X0 1 e@90 ]
+[; ;SC8F072.h: 136: volatile bit T0IF @ ((unsigned)&INTCON*8)+2;
+"137
+[v _INTF `Vb ~T0 @X0 1 e@89 ]
+[; ;SC8F072.h: 137: volatile bit INTF @ ((unsigned)&INTCON*8)+1;
+"138
+[v _RBIF `Vb ~T0 @X0 1 e@88 ]
+[; ;SC8F072.h: 138: volatile bit RBIF @ ((unsigned)&INTCON*8)+0;
+"141
+[v _ODCONB7 `Vb ~T0 @X0 1 e@103 ]
+[; ;SC8F072.h: 141: volatile bit ODCONB7 @ ((unsigned)&ODCONB*8)+7;
+"142
+[v _ODCONB6 `Vb ~T0 @X0 1 e@102 ]
+[; ;SC8F072.h: 142: volatile bit ODCONB6 @ ((unsigned)&ODCONB*8)+6;
+"143
+[v _ODCONB5 `Vb ~T0 @X0 1 e@101 ]
+[; ;SC8F072.h: 143: volatile bit ODCONB5 @ ((unsigned)&ODCONB*8)+5;
+"144
+[v _ODCONB4 `Vb ~T0 @X0 1 e@100 ]
+[; ;SC8F072.h: 144: volatile bit ODCONB4 @ ((unsigned)&ODCONB*8)+4;
+"145
+[v _ODCONB3 `Vb ~T0 @X0 1 e@99 ]
+[; ;SC8F072.h: 145: volatile bit ODCONB3 @ ((unsigned)&ODCONB*8)+3;
+"146
+[v _ODCONB2 `Vb ~T0 @X0 1 e@98 ]
+[; ;SC8F072.h: 146: volatile bit ODCONB2 @ ((unsigned)&ODCONB*8)+2;
+"147
+[v _ODCONB1 `Vb ~T0 @X0 1 e@97 ]
+[; ;SC8F072.h: 147: volatile bit ODCONB1 @ ((unsigned)&ODCONB*8)+1;
+"148
+[v _ODCONB0 `Vb ~T0 @X0 1 e@96 ]
+[; ;SC8F072.h: 148: volatile bit ODCONB0 @ ((unsigned)&ODCONB*8)+0;
+"151
+[v _CMPIF `Vb ~T0 @X0 1 e@109 ]
+[; ;SC8F072.h: 151: volatile bit CMPIF @ ((unsigned)&PIR1*8)+5;
+"152
+[v _PWMIF `Vb ~T0 @X0 1 e@108 ]
+[; ;SC8F072.h: 152: volatile bit PWMIF @ ((unsigned)&PIR1*8)+4;
+"153
+[v _RAIF `Vb ~T0 @X0 1 e@107 ]
+[; ;SC8F072.h: 153: volatile bit RAIF @ ((unsigned)&PIR1*8)+3;
+"154
+[v _TMR2IF `Vb ~T0 @X0 1 e@105 ]
+[; ;SC8F072.h: 154: volatile bit TMR2IF @ ((unsigned)&PIR1*8)+1;
+"155
+[v _ADIF `Vb ~T0 @X0 1 e@104 ]
+[; ;SC8F072.h: 155: volatile bit ADIF @ ((unsigned)&PIR1*8)+0;
+"158
+[v _CMPIE `Vb ~T0 @X0 1 e@117 ]
+[; ;SC8F072.h: 158: volatile bit CMPIE @ ((unsigned)&PIE1*8)+5;
+"159
+[v _PWMIE `Vb ~T0 @X0 1 e@116 ]
+[; ;SC8F072.h: 159: volatile bit PWMIE @ ((unsigned)&PIE1*8)+4;
+"160
+[v _RAIE `Vb ~T0 @X0 1 e@115 ]
+[; ;SC8F072.h: 160: volatile bit RAIE @ ((unsigned)&PIE1*8)+3;
+"161
+[v _TMR2IE `Vb ~T0 @X0 1 e@113 ]
+[; ;SC8F072.h: 161: volatile bit TMR2IE @ ((unsigned)&PIE1*8)+1;
+"162
+[v _ADIE `Vb ~T0 @X0 1 e@112 ]
+[; ;SC8F072.h: 162: volatile bit ADIE @ ((unsigned)&PIE1*8)+0;
+"165
+[v _CMPEN `Vb ~T0 @X0 1 e@127 ]
+[; ;SC8F072.h: 165: volatile bit CMPEN @ ((unsigned)&CMPCON0*8)+7;
+"166
+[v _CMPPS `Vb ~T0 @X0 1 e@126 ]
+[; ;SC8F072.h: 166: volatile bit CMPPS @ ((unsigned)&CMPCON0*8)+6;
+"167
+[v _CMPNS2 `Vb ~T0 @X0 1 e@125 ]
+[; ;SC8F072.h: 167: volatile bit CMPNS2 @ ((unsigned)&CMPCON0*8)+5;
+"168
+[v _CMPNS1 `Vb ~T0 @X0 1 e@124 ]
+[; ;SC8F072.h: 168: volatile bit CMPNS1 @ ((unsigned)&CMPCON0*8)+4;
+"169
+[v _CMPNS0 `Vb ~T0 @X0 1 e@123 ]
+[; ;SC8F072.h: 169: volatile bit CMPNS0 @ ((unsigned)&CMPCON0*8)+3;
+"170
+[v _CMPNV `Vb ~T0 @X0 1 e@122 ]
+[; ;SC8F072.h: 170: volatile bit CMPNV @ ((unsigned)&CMPCON0*8)+2;
+"171
+[v _CMPOUT `Vb ~T0 @X0 1 e@121 ]
+[; ;SC8F072.h: 171: volatile bit CMPOUT @ ((unsigned)&CMPCON0*8)+1;
+"172
+[v _CMPOEN `Vb ~T0 @X0 1 e@120 ]
+[; ;SC8F072.h: 172: volatile bit CMPOEN @ ((unsigned)&CMPCON0*8)+0;
+"175
+[v _CMPIM `Vb ~T0 @X0 1 e@135 ]
+[; ;SC8F072.h: 175: volatile bit CMPIM @ ((unsigned)&CMPCON1*8)+7;
+"176
+[v _AN_EN `Vb ~T0 @X0 1 e@134 ]
+[; ;SC8F072.h: 176: volatile bit AN_EN @ ((unsigned)&CMPCON1*8)+6;
+"177
+[v _RBIAS_H `Vb ~T0 @X0 1 e@133 ]
+[; ;SC8F072.h: 177: volatile bit RBIAS_H @ ((unsigned)&CMPCON1*8)+5;
+"178
+[v _RBIAS_L `Vb ~T0 @X0 1 e@132 ]
+[; ;SC8F072.h: 178: volatile bit RBIAS_L @ ((unsigned)&CMPCON1*8)+4;
+"179
+[v _LVDS3 `Vb ~T0 @X0 1 e@131 ]
+[; ;SC8F072.h: 179: volatile bit LVDS3 @ ((unsigned)&CMPCON1*8)+3;
+"180
+[v _LVDS2 `Vb ~T0 @X0 1 e@130 ]
+[; ;SC8F072.h: 180: volatile bit LVDS2 @ ((unsigned)&CMPCON1*8)+2;
+"181
+[v _LVDS1 `Vb ~T0 @X0 1 e@129 ]
+[; ;SC8F072.h: 181: volatile bit LVDS1 @ ((unsigned)&CMPCON1*8)+1;
+"182
+[v _LVDS0 `Vb ~T0 @X0 1 e@128 ]
+[; ;SC8F072.h: 182: volatile bit LVDS0 @ ((unsigned)&CMPCON1*8)+0;
+"185
+[v _CLK_SEL `Vb ~T0 @X0 1 e@159 ]
+[; ;SC8F072.h: 185: volatile bit CLK_SEL @ ((unsigned)&T2CON*8)+7;
+"186
+[v _TOUTPS3 `Vb ~T0 @X0 1 e@158 ]
+[; ;SC8F072.h: 186: volatile bit TOUTPS3 @ ((unsigned)&T2CON*8)+6;
+"187
+[v _TOUTPS2 `Vb ~T0 @X0 1 e@157 ]
+[; ;SC8F072.h: 187: volatile bit TOUTPS2 @ ((unsigned)&T2CON*8)+5;
+"188
+[v _TOUTPS1 `Vb ~T0 @X0 1 e@156 ]
+[; ;SC8F072.h: 188: volatile bit TOUTPS1 @ ((unsigned)&T2CON*8)+4;
+"189
+[v _TOUTPS0 `Vb ~T0 @X0 1 e@155 ]
+[; ;SC8F072.h: 189: volatile bit TOUTPS0 @ ((unsigned)&T2CON*8)+3;
+"190
+[v _TMR2ON `Vb ~T0 @X0 1 e@154 ]
+[; ;SC8F072.h: 190: volatile bit TMR2ON @ ((unsigned)&T2CON*8)+2;
+"191
+[v _T2CKPS1 `Vb ~T0 @X0 1 e@153 ]
+[; ;SC8F072.h: 191: volatile bit T2CKPS1 @ ((unsigned)&T2CON*8)+1;
+"192
+[v _T2CKPS0 `Vb ~T0 @X0 1 e@152 ]
+[; ;SC8F072.h: 192: volatile bit T2CKPS0 @ ((unsigned)&T2CON*8)+0;
+"195
+[v _IRCF2 `Vb ~T0 @X0 1 e@166 ]
+[; ;SC8F072.h: 195: volatile bit IRCF2 @ ((unsigned)&OSCCON*8)+6;
+"196
+[v _IRCF1 `Vb ~T0 @X0 1 e@165 ]
+[; ;SC8F072.h: 196: volatile bit IRCF1 @ ((unsigned)&OSCCON*8)+5;
+"197
+[v _IRCF0 `Vb ~T0 @X0 1 e@164 ]
+[; ;SC8F072.h: 197: volatile bit IRCF0 @ ((unsigned)&OSCCON*8)+4;
+"198
+[v _SWDTEN `Vb ~T0 @X0 1 e@161 ]
+[; ;SC8F072.h: 198: volatile bit SWDTEN @ ((unsigned)&OSCCON*8)+1;
+"201
+[v _CLKDIV2 `Vb ~T0 @X0 1 e@175 ]
+[; ;SC8F072.h: 201: volatile bit CLKDIV2 @ ((unsigned)&PWMCON0*8)+7;
+"202
+[v _CLKDIV1 `Vb ~T0 @X0 1 e@174 ]
+[; ;SC8F072.h: 202: volatile bit CLKDIV1 @ ((unsigned)&PWMCON0*8)+6;
+"203
+[v _CLKDIV0 `Vb ~T0 @X0 1 e@173 ]
+[; ;SC8F072.h: 203: volatile bit CLKDIV0 @ ((unsigned)&PWMCON0*8)+5;
+"204
+[v _PWM4EN `Vb ~T0 @X0 1 e@172 ]
+[; ;SC8F072.h: 204: volatile bit PWM4EN @ ((unsigned)&PWMCON0*8)+4;
+"205
+[v _PWM3EN `Vb ~T0 @X0 1 e@171 ]
+[; ;SC8F072.h: 205: volatile bit PWM3EN @ ((unsigned)&PWMCON0*8)+3;
+"206
+[v _PWM2EN `Vb ~T0 @X0 1 e@170 ]
+[; ;SC8F072.h: 206: volatile bit PWM2EN @ ((unsigned)&PWMCON0*8)+2;
+"207
+[v _PWM1EN `Vb ~T0 @X0 1 e@169 ]
+[; ;SC8F072.h: 207: volatile bit PWM1EN @ ((unsigned)&PWMCON0*8)+1;
+"208
+[v _PWM0EN `Vb ~T0 @X0 1 e@168 ]
+[; ;SC8F072.h: 208: volatile bit PWM0EN @ ((unsigned)&PWMCON0*8)+0;
+"211
+[v _PWMIO_SEL1 `Vb ~T0 @X0 1 e@183 ]
+[; ;SC8F072.h: 211: volatile bit PWMIO_SEL1 @ ((unsigned)&PWMCON1*8)+7;
+"212
+[v _PWMIO_SEL0 `Vb ~T0 @X0 1 e@182 ]
+[; ;SC8F072.h: 212: volatile bit PWMIO_SEL0 @ ((unsigned)&PWMCON1*8)+6;
+"213
+[v _PWM2DTEN `Vb ~T0 @X0 1 e@181 ]
+[; ;SC8F072.h: 213: volatile bit PWM2DTEN @ ((unsigned)&PWMCON1*8)+5;
+"214
+[v _PWM0DTEN `Vb ~T0 @X0 1 e@180 ]
+[; ;SC8F072.h: 214: volatile bit PWM0DTEN @ ((unsigned)&PWMCON1*8)+4;
+"215
+[v _DT_DIV1 `Vb ~T0 @X0 1 e@177 ]
+[; ;SC8F072.h: 215: volatile bit DT_DIV1 @ ((unsigned)&PWMCON1*8)+1;
+"216
+[v _DT_DIV0 `Vb ~T0 @X0 1 e@176 ]
+[; ;SC8F072.h: 216: volatile bit DT_DIV0 @ ((unsigned)&PWMCON1*8)+0;
+"219
+[v _PWM4D9 `Vb ~T0 @X0 1 e@197 ]
+[; ;SC8F072.h: 219: volatile bit PWM4D9 @ ((unsigned)&PWMTH*8)+5;
+"220
+[v _PWM4D8 `Vb ~T0 @X0 1 e@196 ]
+[; ;SC8F072.h: 220: volatile bit PWM4D8 @ ((unsigned)&PWMTH*8)+4;
+"221
+[v _PWM4T9 `Vb ~T0 @X0 1 e@195 ]
+[; ;SC8F072.h: 221: volatile bit PWM4T9 @ ((unsigned)&PWMTH*8)+3;
+"222
+[v _PWM4T8 `Vb ~T0 @X0 1 e@194 ]
+[; ;SC8F072.h: 222: volatile bit PWM4T8 @ ((unsigned)&PWMTH*8)+2;
+"223
+[v _PWMT9 `Vb ~T0 @X0 1 e@193 ]
+[; ;SC8F072.h: 223: volatile bit PWMT9 @ ((unsigned)&PWMTH*8)+1;
+"224
+[v _PWMT8 `Vb ~T0 @X0 1 e@192 ]
+[; ;SC8F072.h: 224: volatile bit PWMT8 @ ((unsigned)&PWMTH*8)+0;
+"227
+[v _PWM4DIR `Vb ~T0 @X0 1 e@236 ]
+[; ;SC8F072.h: 227: volatile bit PWM4DIR @ ((unsigned)&PWMCON2*8)+4;
+"228
+[v _PWM3DIR `Vb ~T0 @X0 1 e@235 ]
+[; ;SC8F072.h: 228: volatile bit PWM3DIR @ ((unsigned)&PWMCON2*8)+3;
+"229
+[v _PWM2DIR `Vb ~T0 @X0 1 e@234 ]
+[; ;SC8F072.h: 229: volatile bit PWM2DIR @ ((unsigned)&PWMCON2*8)+2;
+"230
+[v _PWM1DIR `Vb ~T0 @X0 1 e@233 ]
+[; ;SC8F072.h: 230: volatile bit PWM1DIR @ ((unsigned)&PWMCON2*8)+1;
+"231
+[v _PWM0DIR `Vb ~T0 @X0 1 e@232 ]
+[; ;SC8F072.h: 231: volatile bit PWM0DIR @ ((unsigned)&PWMCON2*8)+0;
+"234
+[v _PWMD19 `Vb ~T0 @X0 1 e@245 ]
+[; ;SC8F072.h: 234: volatile bit PWMD19 @ ((unsigned)&PWMD01H*8)+5;
+"235
+[v _PWMD18 `Vb ~T0 @X0 1 e@244 ]
+[; ;SC8F072.h: 235: volatile bit PWMD18 @ ((unsigned)&PWMD01H*8)+4;
+"236
+[v _PWMD09 `Vb ~T0 @X0 1 e@241 ]
+[; ;SC8F072.h: 236: volatile bit PWMD09 @ ((unsigned)&PWMD01H*8)+1;
+"237
+[v _PWMD08 `Vb ~T0 @X0 1 e@240 ]
+[; ;SC8F072.h: 237: volatile bit PWMD08 @ ((unsigned)&PWMD01H*8)+0;
+"240
+[v _PWM01DT5 `Vb ~T0 @X0 1 e@253 ]
+[; ;SC8F072.h: 240: volatile bit PWM01DT5 @ ((unsigned)&PWM01DT*8)+5;
+"241
+[v _PWM01DT4 `Vb ~T0 @X0 1 e@252 ]
+[; ;SC8F072.h: 241: volatile bit PWM01DT4 @ ((unsigned)&PWM01DT*8)+4;
+"242
+[v _PWM01DT3 `Vb ~T0 @X0 1 e@251 ]
+[; ;SC8F072.h: 242: volatile bit PWM01DT3 @ ((unsigned)&PWM01DT*8)+3;
+"243
+[v _PWM01DT2 `Vb ~T0 @X0 1 e@250 ]
+[; ;SC8F072.h: 243: volatile bit PWM01DT2 @ ((unsigned)&PWM01DT*8)+2;
+"244
+[v _PWM01DT1 `Vb ~T0 @X0 1 e@249 ]
+[; ;SC8F072.h: 244: volatile bit PWM01DT1 @ ((unsigned)&PWM01DT*8)+1;
+"245
+[v _PWM01DT0 `Vb ~T0 @X0 1 e@248 ]
+[; ;SC8F072.h: 245: volatile bit PWM01DT0 @ ((unsigned)&PWM01DT*8)+0;
+"248
+[v _TRISA5 `Vb ~T0 @X0 1 e@1069 ]
+[; ;SC8F072.h: 248: volatile bit TRISA5 @ ((unsigned)&TRISA*8)+5;
+"249
+[v _TRISA4 `Vb ~T0 @X0 1 e@1068 ]
+[; ;SC8F072.h: 249: volatile bit TRISA4 @ ((unsigned)&TRISA*8)+4;
+"250
+[v _TRISA3 `Vb ~T0 @X0 1 e@1067 ]
+[; ;SC8F072.h: 250: volatile bit TRISA3 @ ((unsigned)&TRISA*8)+3;
+"251
+[v _TRISA2 `Vb ~T0 @X0 1 e@1066 ]
+[; ;SC8F072.h: 251: volatile bit TRISA2 @ ((unsigned)&TRISA*8)+2;
+"252
+[v _TRISA1 `Vb ~T0 @X0 1 e@1065 ]
+[; ;SC8F072.h: 252: volatile bit TRISA1 @ ((unsigned)&TRISA*8)+1;
+"253
+[v _TRISA0 `Vb ~T0 @X0 1 e@1064 ]
+[; ;SC8F072.h: 253: volatile bit TRISA0 @ ((unsigned)&TRISA*8)+0;
+"256
+[v _RA5 `Vb ~T0 @X0 1 e@1077 ]
+[; ;SC8F072.h: 256: volatile bit RA5 @ ((unsigned)&PORTA*8)+5;
+"257
+[v _RA4 `Vb ~T0 @X0 1 e@1076 ]
+[; ;SC8F072.h: 257: volatile bit RA4 @ ((unsigned)&PORTA*8)+4;
+"258
+[v _RA3 `Vb ~T0 @X0 1 e@1075 ]
+[; ;SC8F072.h: 258: volatile bit RA3 @ ((unsigned)&PORTA*8)+3;
+"259
+[v _RA2 `Vb ~T0 @X0 1 e@1074 ]
+[; ;SC8F072.h: 259: volatile bit RA2 @ ((unsigned)&PORTA*8)+2;
+"260
+[v _RA1 `Vb ~T0 @X0 1 e@1073 ]
+[; ;SC8F072.h: 260: volatile bit RA1 @ ((unsigned)&PORTA*8)+1;
+"261
+[v _RA0 `Vb ~T0 @X0 1 e@1072 ]
+[; ;SC8F072.h: 261: volatile bit RA0 @ ((unsigned)&PORTA*8)+0;
+"264
+[v _WPDA5 `Vb ~T0 @X0 1 e@1085 ]
+[; ;SC8F072.h: 264: volatile bit WPDA5 @ ((unsigned)&WPDA*8)+5;
+"265
+[v _WPDA4 `Vb ~T0 @X0 1 e@1084 ]
+[; ;SC8F072.h: 265: volatile bit WPDA4 @ ((unsigned)&WPDA*8)+4;
+"266
+[v _WPDA3 `Vb ~T0 @X0 1 e@1083 ]
+[; ;SC8F072.h: 266: volatile bit WPDA3 @ ((unsigned)&WPDA*8)+3;
+"267
+[v _WPDA2 `Vb ~T0 @X0 1 e@1082 ]
+[; ;SC8F072.h: 267: volatile bit WPDA2 @ ((unsigned)&WPDA*8)+2;
+"268
+[v _WPDA1 `Vb ~T0 @X0 1 e@1081 ]
+[; ;SC8F072.h: 268: volatile bit WPDA1 @ ((unsigned)&WPDA*8)+1;
+"269
+[v _WPDA0 `Vb ~T0 @X0 1 e@1080 ]
+[; ;SC8F072.h: 269: volatile bit WPDA0 @ ((unsigned)&WPDA*8)+0;
+"272
+[v _WPUA5 `Vb ~T0 @X0 1 e@1093 ]
+[; ;SC8F072.h: 272: volatile bit WPUA5 @ ((unsigned)&WPUA*8)+5;
+"273
+[v _WPUA4 `Vb ~T0 @X0 1 e@1092 ]
+[; ;SC8F072.h: 273: volatile bit WPUA4 @ ((unsigned)&WPUA*8)+4;
+"274
+[v _WPUA3 `Vb ~T0 @X0 1 e@1091 ]
+[; ;SC8F072.h: 274: volatile bit WPUA3 @ ((unsigned)&WPUA*8)+3;
+"275
+[v _WPUA2 `Vb ~T0 @X0 1 e@1090 ]
+[; ;SC8F072.h: 275: volatile bit WPUA2 @ ((unsigned)&WPUA*8)+2;
+"276
+[v _WPUA1 `Vb ~T0 @X0 1 e@1089 ]
+[; ;SC8F072.h: 276: volatile bit WPUA1 @ ((unsigned)&WPUA*8)+1;
+"277
+[v _WPUA0 `Vb ~T0 @X0 1 e@1088 ]
+[; ;SC8F072.h: 277: volatile bit WPUA0 @ ((unsigned)&WPUA*8)+0;
+"280
+[v _IOCA5 `Vb ~T0 @X0 1 e@1101 ]
+[; ;SC8F072.h: 280: volatile bit IOCA5 @ ((unsigned)&IOCA*8)+5;
+"281
+[v _IOCA4 `Vb ~T0 @X0 1 e@1100 ]
+[; ;SC8F072.h: 281: volatile bit IOCA4 @ ((unsigned)&IOCA*8)+4;
+"282
+[v _IOCA3 `Vb ~T0 @X0 1 e@1099 ]
+[; ;SC8F072.h: 282: volatile bit IOCA3 @ ((unsigned)&IOCA*8)+3;
+"283
+[v _IOCA2 `Vb ~T0 @X0 1 e@1098 ]
+[; ;SC8F072.h: 283: volatile bit IOCA2 @ ((unsigned)&IOCA*8)+2;
+"284
+[v _IOCA1 `Vb ~T0 @X0 1 e@1097 ]
+[; ;SC8F072.h: 284: volatile bit IOCA1 @ ((unsigned)&IOCA*8)+1;
+"285
+[v _IOCA0 `Vb ~T0 @X0 1 e@1096 ]
+[; ;SC8F072.h: 285: volatile bit IOCA0 @ ((unsigned)&IOCA*8)+0;
+"288
+[v _ODCONA5 `Vb ~T0 @X0 1 e@1125 ]
+[; ;SC8F072.h: 288: volatile bit ODCONA5 @ ((unsigned)&ODCONA*8)+5;
+"289
+[v _ODCONA4 `Vb ~T0 @X0 1 e@1124 ]
+[; ;SC8F072.h: 289: volatile bit ODCONA4 @ ((unsigned)&ODCONA*8)+4;
+"290
+[v _ODCONA3 `Vb ~T0 @X0 1 e@1123 ]
+[; ;SC8F072.h: 290: volatile bit ODCONA3 @ ((unsigned)&ODCONA*8)+3;
+"291
+[v _ODCONA2 `Vb ~T0 @X0 1 e@1122 ]
+[; ;SC8F072.h: 291: volatile bit ODCONA2 @ ((unsigned)&ODCONA*8)+2;
+"292
+[v _ODCONA1 `Vb ~T0 @X0 1 e@1121 ]
+[; ;SC8F072.h: 292: volatile bit ODCONA1 @ ((unsigned)&ODCONA*8)+1;
+"293
+[v _ODCONA0 `Vb ~T0 @X0 1 e@1120 ]
+[; ;SC8F072.h: 293: volatile bit ODCONA0 @ ((unsigned)&ODCONA*8)+0;
+"296
+[v _EEPGD `Vb ~T0 @X0 1 e@1135 ]
+[; ;SC8F072.h: 296: volatile bit EEPGD @ ((unsigned)&EECON1*8)+7;
+"297
+[v _WRERR `Vb ~T0 @X0 1 e@1131 ]
+[; ;SC8F072.h: 297: volatile bit WRERR @ ((unsigned)&EECON1*8)+3;
+"298
+[v _WREN `Vb ~T0 @X0 1 e@1130 ]
+[; ;SC8F072.h: 298: volatile bit WREN @ ((unsigned)&EECON1*8)+2;
+"299
+[v _WR `Vb ~T0 @X0 1 e@1129 ]
+[; ;SC8F072.h: 299: volatile bit WR @ ((unsigned)&EECON1*8)+1;
+"300
+[v _RD `Vb ~T0 @X0 1 e@1128 ]
+[; ;SC8F072.h: 300: volatile bit RD @ ((unsigned)&EECON1*8)+0;
+"303
+[v _EEDAT7 `Vb ~T0 @X0 1 e@1151 ]
+[; ;SC8F072.h: 303: volatile bit EEDAT7 @ ((unsigned)&EEDAT*8)+7;
+"304
+[v _EEDAT6 `Vb ~T0 @X0 1 e@1150 ]
+[; ;SC8F072.h: 304: volatile bit EEDAT6 @ ((unsigned)&EEDAT*8)+6;
+"305
+[v _EEDAT5 `Vb ~T0 @X0 1 e@1149 ]
+[; ;SC8F072.h: 305: volatile bit EEDAT5 @ ((unsigned)&EEDAT*8)+5;
+"306
+[v _EEDAT4 `Vb ~T0 @X0 1 e@1148 ]
+[; ;SC8F072.h: 306: volatile bit EEDAT4 @ ((unsigned)&EEDAT*8)+4;
+"307
+[v _EEDAT3 `Vb ~T0 @X0 1 e@1147 ]
+[; ;SC8F072.h: 307: volatile bit EEDAT3 @ ((unsigned)&EEDAT*8)+3;
+"308
+[v _EEDAT2 `Vb ~T0 @X0 1 e@1146 ]
+[; ;SC8F072.h: 308: volatile bit EEDAT2 @ ((unsigned)&EEDAT*8)+2;
+"309
+[v _EEDAT1 `Vb ~T0 @X0 1 e@1145 ]
+[; ;SC8F072.h: 309: volatile bit EEDAT1 @ ((unsigned)&EEDAT*8)+1;
+"310
+[v _EEDAT0 `Vb ~T0 @X0 1 e@1144 ]
+[; ;SC8F072.h: 310: volatile bit EEDAT0 @ ((unsigned)&EEDAT*8)+0;
+"313
+[v _EEDATH7 `Vb ~T0 @X0 1 e@1159 ]
+[; ;SC8F072.h: 313: volatile bit EEDATH7 @ ((unsigned)&EEDATH*8)+7;
+"314
+[v _EEDATH6 `Vb ~T0 @X0 1 e@1158 ]
+[; ;SC8F072.h: 314: volatile bit EEDATH6 @ ((unsigned)&EEDATH*8)+6;
+"315
+[v _EEDATH5 `Vb ~T0 @X0 1 e@1157 ]
+[; ;SC8F072.h: 315: volatile bit EEDATH5 @ ((unsigned)&EEDATH*8)+5;
+"316
+[v _EEDATH4 `Vb ~T0 @X0 1 e@1156 ]
+[; ;SC8F072.h: 316: volatile bit EEDATH4 @ ((unsigned)&EEDATH*8)+4;
+"317
+[v _EEDATH3 `Vb ~T0 @X0 1 e@1155 ]
+[; ;SC8F072.h: 317: volatile bit EEDATH3 @ ((unsigned)&EEDATH*8)+3;
+"318
+[v _EEDATH2 `Vb ~T0 @X0 1 e@1154 ]
+[; ;SC8F072.h: 318: volatile bit EEDATH2 @ ((unsigned)&EEDATH*8)+2;
+"319
+[v _EEDATH1 `Vb ~T0 @X0 1 e@1153 ]
+[; ;SC8F072.h: 319: volatile bit EEDATH1 @ ((unsigned)&EEDATH*8)+1;
+"320
+[v _EEDATH0 `Vb ~T0 @X0 1 e@1152 ]
+[; ;SC8F072.h: 320: volatile bit EEDATH0 @ ((unsigned)&EEDATH*8)+0;
+"323
+[v _EEADR7 `Vb ~T0 @X0 1 e@1167 ]
+[; ;SC8F072.h: 323: volatile bit EEADR7 @ ((unsigned)&EEADR*8)+7;
+"324
+[v _EEADR6 `Vb ~T0 @X0 1 e@1166 ]
+[; ;SC8F072.h: 324: volatile bit EEADR6 @ ((unsigned)&EEADR*8)+6;
+"325
+[v _EEADR5 `Vb ~T0 @X0 1 e@1165 ]
+[; ;SC8F072.h: 325: volatile bit EEADR5 @ ((unsigned)&EEADR*8)+5;
+"326
+[v _EEADR4 `Vb ~T0 @X0 1 e@1164 ]
+[; ;SC8F072.h: 326: volatile bit EEADR4 @ ((unsigned)&EEADR*8)+4;
+"327
+[v _EEADR3 `Vb ~T0 @X0 1 e@1163 ]
+[; ;SC8F072.h: 327: volatile bit EEADR3 @ ((unsigned)&EEADR*8)+3;
+"328
+[v _EEADR2 `Vb ~T0 @X0 1 e@1162 ]
+[; ;SC8F072.h: 328: volatile bit EEADR2 @ ((unsigned)&EEADR*8)+2;
+"329
+[v _EEADR1 `Vb ~T0 @X0 1 e@1161 ]
+[; ;SC8F072.h: 329: volatile bit EEADR1 @ ((unsigned)&EEADR*8)+1;
+"330
+[v _EEADR0 `Vb ~T0 @X0 1 e@1160 ]
+[; ;SC8F072.h: 330: volatile bit EEADR0 @ ((unsigned)&EEADR*8)+0;
+"333
+[v _EEADRH2 `Vb ~T0 @X0 1 e@1170 ]
+[; ;SC8F072.h: 333: volatile bit EEADRH2 @ ((unsigned)&EEADRH*8)+2;
+"334
+[v _EEADRH1 `Vb ~T0 @X0 1 e@1169 ]
+[; ;SC8F072.h: 334: volatile bit EEADRH1 @ ((unsigned)&EEADRH*8)+1;
+"335
+[v _EEADRH0 `Vb ~T0 @X0 1 e@1168 ]
+[; ;SC8F072.h: 335: volatile bit EEADRH0 @ ((unsigned)&EEADRH*8)+0;
+"338
+[v _ANS5 `Vb ~T0 @X0 1 e@1181 ]
+[; ;SC8F072.h: 338: volatile bit ANS5 @ ((unsigned)&ANSEL0*8)+5;
+"339
+[v _ANS4 `Vb ~T0 @X0 1 e@1180 ]
+[; ;SC8F072.h: 339: volatile bit ANS4 @ ((unsigned)&ANSEL0*8)+4;
+"340
+[v _ANS3 `Vb ~T0 @X0 1 e@1179 ]
+[; ;SC8F072.h: 340: volatile bit ANS3 @ ((unsigned)&ANSEL0*8)+3;
+"341
+[v _ANS2 `Vb ~T0 @X0 1 e@1178 ]
+[; ;SC8F072.h: 341: volatile bit ANS2 @ ((unsigned)&ANSEL0*8)+2;
+"342
+[v _ANS1 `Vb ~T0 @X0 1 e@1177 ]
+[; ;SC8F072.h: 342: volatile bit ANS1 @ ((unsigned)&ANSEL0*8)+1;
+"343
+[v _ANS0 `Vb ~T0 @X0 1 e@1176 ]
+[; ;SC8F072.h: 343: volatile bit ANS0 @ ((unsigned)&ANSEL0*8)+0;
+"346
+[v _ANS15 `Vb ~T0 @X0 1 e@1191 ]
+[; ;SC8F072.h: 346: volatile bit ANS15 @ ((unsigned)&ANSEL1*8)+7;
+"347
+[v _ANS14 `Vb ~T0 @X0 1 e@1190 ]
+[; ;SC8F072.h: 347: volatile bit ANS14 @ ((unsigned)&ANSEL1*8)+6;
+"348
+[v _ANS13 `Vb ~T0 @X0 1 e@1189 ]
+[; ;SC8F072.h: 348: volatile bit ANS13 @ ((unsigned)&ANSEL1*8)+5;
+"349
+[v _ANS12 `Vb ~T0 @X0 1 e@1188 ]
+[; ;SC8F072.h: 349: volatile bit ANS12 @ ((unsigned)&ANSEL1*8)+4;
+"350
+[v _ANS11 `Vb ~T0 @X0 1 e@1187 ]
+[; ;SC8F072.h: 350: volatile bit ANS11 @ ((unsigned)&ANSEL1*8)+3;
+"351
+[v _ANS10 `Vb ~T0 @X0 1 e@1186 ]
+[; ;SC8F072.h: 351: volatile bit ANS10 @ ((unsigned)&ANSEL1*8)+2;
+"352
+[v _ANS9 `Vb ~T0 @X0 1 e@1185 ]
+[; ;SC8F072.h: 352: volatile bit ANS9 @ ((unsigned)&ANSEL1*8)+1;
+"353
+[v _ANS8 `Vb ~T0 @X0 1 e@1184 ]
+[; ;SC8F072.h: 353: volatile bit ANS8 @ ((unsigned)&ANSEL1*8)+0;
+"356
+[v _ADCS1 `Vb ~T0 @X0 1 e@1199 ]
+[; ;SC8F072.h: 356: volatile bit ADCS1 @ ((unsigned)&ADCON0*8)+7;
+"357
+[v _ADCS0 `Vb ~T0 @X0 1 e@1198 ]
+[; ;SC8F072.h: 357: volatile bit ADCS0 @ ((unsigned)&ADCON0*8)+6;
+"358
+[v _CHS3 `Vb ~T0 @X0 1 e@1197 ]
+[; ;SC8F072.h: 358: volatile bit CHS3 @ ((unsigned)&ADCON0*8)+5;
+"359
+[v _CHS2 `Vb ~T0 @X0 1 e@1196 ]
+[; ;SC8F072.h: 359: volatile bit CHS2 @ ((unsigned)&ADCON0*8)+4;
+"360
+[v _CHS1 `Vb ~T0 @X0 1 e@1195 ]
+[; ;SC8F072.h: 360: volatile bit CHS1 @ ((unsigned)&ADCON0*8)+3;
+"361
+[v _CHS0 `Vb ~T0 @X0 1 e@1194 ]
+[; ;SC8F072.h: 361: volatile bit CHS0 @ ((unsigned)&ADCON0*8)+2;
+"362
+[v _GODONE `Vb ~T0 @X0 1 e@1193 ]
+[; ;SC8F072.h: 362: volatile bit GODONE @ ((unsigned)&ADCON0*8)+1;
+"363
+[v _ADON `Vb ~T0 @X0 1 e@1192 ]
+[; ;SC8F072.h: 363: volatile bit ADON @ ((unsigned)&ADCON0*8)+0;
+"366
+[v _ADFM `Vb ~T0 @X0 1 e@1207 ]
+[; ;SC8F072.h: 366: volatile bit ADFM @ ((unsigned)&ADCON1*8)+7;
+"367
+[v _CHS4 `Vb ~T0 @X0 1 e@1206 ]
+[; ;SC8F072.h: 367: volatile bit CHS4 @ ((unsigned)&ADCON1*8)+6;
+"368
+[v _LDO_EN `Vb ~T0 @X0 1 e@1202 ]
+[; ;SC8F072.h: 368: volatile bit LDO_EN @ ((unsigned)&ADCON1*8)+2;
+"369
+[v _LDO_SEL1 `Vb ~T0 @X0 1 e@1201 ]
+[; ;SC8F072.h: 369: volatile bit LDO_SEL1 @ ((unsigned)&ADCON1*8)+1;
+"370
+[v _LDO_SEL0 `Vb ~T0 @X0 1 e@1200 ]
+[; ;SC8F072.h: 370: volatile bit LDO_SEL0 @ ((unsigned)&ADCON1*8)+0;
+"373
+[v _PWMD39 `Vb ~T0 @X0 1 e@1269 ]
+[; ;SC8F072.h: 373: volatile bit PWMD39 @ ((unsigned)&PWMD23H*8)+5;
+"374
+[v _PWMD38 `Vb ~T0 @X0 1 e@1268 ]
+[; ;SC8F072.h: 374: volatile bit PWMD38 @ ((unsigned)&PWMD23H*8)+4;
+"375
+[v _PWMD29 `Vb ~T0 @X0 1 e@1265 ]
+[; ;SC8F072.h: 375: volatile bit PWMD29 @ ((unsigned)&PWMD23H*8)+1;
+"376
+[v _PWMD28 `Vb ~T0 @X0 1 e@1264 ]
+[; ;SC8F072.h: 376: volatile bit PWMD28 @ ((unsigned)&PWMD23H*8)+0;
+[; ;sc.h: 28: extern void __nop(void);
+[; ;sc.h: 76: extern unsigned int flash_read(unsigned short addr);
+[; ;sc.h: 150: extern __nonreentrant void _delay(unsigned long);
+[; ;sc.h: 184: extern unsigned char __resetbits;
+[; ;sc.h: 185: extern __bit __powerdown;
+[; ;sc.h: 186: extern __bit __timeout;
+[; ;stdint.h: 13: typedef signed char int8_t;
+[; ;stdint.h: 20: typedef signed int int16_t;
+[; ;stdint.h: 28: typedef signed short long int int24_t;
+[; ;stdint.h: 36: typedef signed long int int32_t;
+[; ;stdint.h: 43: typedef unsigned char uint8_t;
+[; ;stdint.h: 49: typedef unsigned int uint16_t;
+[; ;stdint.h: 56: typedef unsigned short long int uint24_t;
+[; ;stdint.h: 63: typedef unsigned long int uint32_t;
+[; ;stdint.h: 71: typedef signed char int_least8_t;
+[; ;stdint.h: 78: typedef signed int int_least16_t;
+[; ;stdint.h: 90: typedef signed short long int int_least24_t;
+[; ;stdint.h: 98: typedef signed long int int_least32_t;
+[; ;stdint.h: 105: typedef unsigned char uint_least8_t;
+[; ;stdint.h: 111: typedef unsigned int uint_least16_t;
+[; ;stdint.h: 121: typedef unsigned short long int uint_least24_t;
+[; ;stdint.h: 128: typedef unsigned long int uint_least32_t;
+[; ;stdint.h: 137: typedef signed char int_fast8_t;
+[; ;stdint.h: 144: typedef signed int int_fast16_t;
+[; ;stdint.h: 156: typedef signed short long int int_fast24_t;
+[; ;stdint.h: 164: typedef signed long int int_fast32_t;
+[; ;stdint.h: 171: typedef unsigned char uint_fast8_t;
+[; ;stdint.h: 177: typedef unsigned int uint_fast16_t;
+[; ;stdint.h: 187: typedef unsigned short long int uint_fast24_t;
+[; ;stdint.h: 194: typedef unsigned long int uint_fast32_t;
+[; ;stdint.h: 200: typedef int32_t intmax_t;
+[; ;stdint.h: 205: typedef uint32_t uintmax_t;
+[; ;stdint.h: 210: typedef int16_t intptr_t;
+[; ;stdint.h: 215: typedef uint16_t uintptr_t;
+[; ;config.h: 14: typedef enum {
+[; ;config.h: 15: EFFECT_BREATH = 0,
+[; ;config.h: 16: EFFECT_TWINKLE,
+[; ;config.h: 17: EFFECT_CHASE,
+[; ;config.h: 18: EFFECT_EXPAND,
+[; ;config.h: 19: EFFECT_MARQUEE,
+[; ;config.h: 20: EFFECT_STACK,
+[; ;config.h: 21: EFFECT_POLICE,
+[; ;config.h: 23: EFFECT_COUNT
+[; ;config.h: 24: } EffectMode_t;
+[; ;config.h: 27: typedef struct {
+[; ;config.h: 28: unsigned char r;
+[; ;config.h: 29: unsigned char g;
+[; ;config.h: 30: unsigned char b;
+[; ;config.h: 31: } RGB_t;
+[; ;config.h: 34: typedef struct {
+[; ;config.h: 35: void (*init)(void);
+[; ;config.h: 36: void (*update)(void);
+[; ;config.h: 37: } Effect_t;
+[; ;config.h: 39: extern volatile uint16_t system_tick_ms;
+[; ;config.h: 40: extern volatile EffectMode_t current_effect;
+[; ;config.h: 41: extern RGB_t leds[24];
+[; ;ws2812.h: 7: void ws2812_update_RGB(RGB_t *leds, unsigned char num);
+"6 H:\8bit-RGB\effects.c
+[v _system_tick_ms `Vui ~T0 @X0 1 e ]
+[i _system_tick_ms
+-> -> 0 `i `ui
+]
+[; ;effects.c: 6: volatile uint16_t system_tick_ms = 0;
+"7
+[v _current_effect `VE587 ~T0 @X0 1 e ]
+[i _current_effect
+. `E587 0
+]
+[; ;effects.c: 7: volatile EffectMode_t current_effect = EFFECT_BREATH;
+"8
+[v _leds `S1 ~T0 @X0 -> 24 `i e ]
+[; ;effects.c: 8: RGB_t leds[24];
+"11
+[v _breath_val `uc ~T0 @X0 1 s ]
+[i _breath_val
+-> -> 25 `i `uc
+]
+[; ;effects.c: 11: static unsigned char breath_val = 25;
+"12
+[v _breath_dir `c ~T0 @X0 1 s ]
+[i _breath_dir
+-> -> 1 `i `c
+]
+[; ;effects.c: 12: static signed char breath_dir = 1;
+"13
+[v _breath_color `uc ~T0 @X0 1 s ]
+[i _breath_color
+-> -> 0 `i `uc
+]
+[; ;effects.c: 13: static unsigned char breath_color = 0;
+"14
+[v _breath_transition `uc ~T0 @X0 1 s ]
+[i _breath_transition
+-> -> 0 `i `uc
+]
+[; ;effects.c: 14: static unsigned char breath_transition = 0;
+"16
+[v _breath_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 16: void breath_init(void) {
+[e :U _breath_init ]
+[f ]
+[; ;effects.c: 17: breath_val = 25;
+"17
+[e = _breath_val -> -> 25 `i `uc ]
+[; ;effects.c: 18: breath_dir = 1;
+"18
+[e = _breath_dir -> -> 1 `i `c ]
+[; ;effects.c: 19: breath_color = 0;
+"19
+[e = _breath_color -> -> 0 `i `uc ]
+[; ;effects.c: 20: breath_transition = 0;
+"20
+[e = _breath_transition -> -> 0 `i `uc ]
+[; ;effects.c: 21: }
+"21
+[e :UE 3 ]
+}
+"23
+[v _breath_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 23: void breath_update(void) {
+[e :U _breath_update ]
+[f ]
+"25
+[v F624 `uc ~T0 @X0 1 s counter ]
+[i F624
+-> -> 0 `i `uc
+]
+[; ;effects.c: 25: static unsigned char counter = 0;
+[; ;effects.c: 26: counter++;
+"26
+[e ++ F624 -> -> 1 `i `uc ]
+[; ;effects.c: 27: if (counter < 10) return;
+"27
+[e $ ! < -> F624 `i -> 10 `i 5  ]
+[e $UE 4  ]
+[e :U 5 ]
+[; ;effects.c: 28: counter = 0;
+"28
+[e = F624 -> -> 0 `i `uc ]
+"30
+[v _r `uc ~T0 @X0 1 a ]
+[; ;effects.c: 30: unsigned char r = 0, g = 0, b = 0;
+[e = _r -> -> 0 `i `uc ]
+[v _g `uc ~T0 @X0 1 a ]
+[e = _g -> -> 0 `i `uc ]
+[v _b `uc ~T0 @X0 1 a ]
+[e = _b -> -> 0 `i `uc ]
+[; ;effects.c: 33: if (breath_transition > 0) {
+"33
+[e $ ! > -> _breath_transition `i -> 0 `i 6  ]
+{
+[; ;effects.c: 34: breath_transition += 2;
+"34
+[e =+ _breath_transition -> -> 2 `i `uc ]
+[; ;effects.c: 35: if (breath_transition > 12) {
+"35
+[e $ ! > -> _breath_transition `i -> 12 `i 7  ]
+{
+[; ;effects.c: 36: breath_transition = 0;
+"36
+[e = _breath_transition -> -> 0 `i `uc ]
+[; ;effects.c: 37: breath_color = (breath_color + 1) % 3;
+"37
+[e = _breath_color -> % + -> _breath_color `i -> 1 `i -> 3 `i `uc ]
+[; ;effects.c: 38: breath_val = 25;
+"38
+[e = _breath_val -> -> 25 `i `uc ]
+[; ;effects.c: 39: breath_dir = 1;
+"39
+[e = _breath_dir -> -> 1 `i `c ]
+"40
+}
+[e :U 7 ]
+"43
+[v _old_val `uc ~T0 @X0 1 a ]
+[; ;effects.c: 40: }
+[; ;effects.c: 43: unsigned char old_val = 25 - breath_transition;
+[e = _old_val -> - -> 25 `i -> _breath_transition `i `uc ]
+"44
+[v _new_val `uc ~T0 @X0 1 a ]
+[; ;effects.c: 44: unsigned char new_val = breath_transition;
+[e = _new_val _breath_transition ]
+[; ;effects.c: 46: switch (breath_color) {
+"46
+[e $U 9  ]
+{
+[; ;effects.c: 47: case 0: r = old_val; g = new_val; break;
+"47
+[e :U 10 ]
+[e = _r _old_val ]
+[e = _g _new_val ]
+[e $U 8  ]
+[; ;effects.c: 48: case 1: g = old_val; b = new_val; break;
+"48
+[e :U 11 ]
+[e = _g _old_val ]
+[e = _b _new_val ]
+[e $U 8  ]
+[; ;effects.c: 49: case 2: b = old_val; r = new_val; break;
+"49
+[e :U 12 ]
+[e = _b _old_val ]
+[e = _r _new_val ]
+[e $U 8  ]
+"50
+}
+[; ;effects.c: 50: }
+[e $U 8  ]
+"46
+[e :U 9 ]
+[e [\ _breath_color , $ -> -> 0 `i `uc 10
+ , $ -> -> 1 `i `uc 11
+ , $ -> -> 2 `i `uc 12
+ 8 ]
+"50
+[e :U 8 ]
+"51
+}
+[; ;effects.c: 51: }
+[e $U 13  ]
+"53
+[e :U 6 ]
+[; ;effects.c: 53: else {
+{
+[; ;effects.c: 55: breath_val += breath_dir * 10;
+"55
+[e =+ _breath_val -> * -> _breath_dir `i -> 10 `i `uc ]
+[; ;effects.c: 57: if (breath_val >= 250) {
+"57
+[e $ ! >= -> _breath_val `i -> 250 `i 14  ]
+{
+[; ;effects.c: 58: breath_val = 250;
+"58
+[e = _breath_val -> -> 250 `i `uc ]
+[; ;effects.c: 59: breath_dir = -1;
+"59
+[e = _breath_dir -> -U -> 1 `i `c ]
+"60
+}
+[; ;effects.c: 60: }
+[e $U 15  ]
+"61
+[e :U 14 ]
+[; ;effects.c: 61: else if (breath_val <= 25 && breath_dir < 0) {
+[e $ ! && <= -> _breath_val `i -> 25 `i < -> _breath_dir `i -> 0 `i 16  ]
+{
+[; ;effects.c: 63: breath_transition = 1;
+"63
+[e = _breath_transition -> -> 1 `i `uc ]
+[; ;effects.c: 64: breath_val = 25;
+"64
+[e = _breath_val -> -> 25 `i `uc ]
+"65
+}
+[e :U 16 ]
+"68
+[e :U 15 ]
+[; ;effects.c: 65: }
+[; ;effects.c: 68: switch (breath_color) {
+[e $U 18  ]
+{
+[; ;effects.c: 69: case 0: r = breath_val; break;
+"69
+[e :U 19 ]
+[e = _r _breath_val ]
+[e $U 17  ]
+[; ;effects.c: 70: case 1: g = breath_val; break;
+"70
+[e :U 20 ]
+[e = _g _breath_val ]
+[e $U 17  ]
+[; ;effects.c: 71: case 2: b = breath_val; break;
+"71
+[e :U 21 ]
+[e = _b _breath_val ]
+[e $U 17  ]
+"72
+}
+[; ;effects.c: 72: }
+[e $U 17  ]
+"68
+[e :U 18 ]
+[e [\ _breath_color , $ -> -> 0 `i `uc 19
+ , $ -> -> 1 `i `uc 20
+ , $ -> -> 2 `i `uc 21
+ 17 ]
+"72
+[e :U 17 ]
+"73
+}
+[e :U 13 ]
+[; ;effects.c: 73: }
+[; ;effects.c: 75: for (unsigned char i = 0; i < 24; i++) {
+"75
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 22  ]
+[e $U 23  ]
+[e :U 22 ]
+{
+[; ;effects.c: 76: leds[i].r = r;
+"76
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 _r ]
+[; ;effects.c: 77: leds[i].g = g;
+"77
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 _g ]
+[; ;effects.c: 78: leds[i].b = b;
+"78
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 _b ]
+"79
+}
+"75
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 22  ]
+[e :U 23 ]
+"79
+}
+[; ;effects.c: 79: }
+[; ;effects.c: 80: }
+"80
+[e :UE 4 ]
+}
+[; ;effects.c: 85: typedef struct {
+[; ;effects.c: 86: unsigned char pos;
+[; ;effects.c: 87: unsigned char phase;
+[; ;effects.c: 88: unsigned char speed;
+[; ;effects.c: 89: } TwinkleStar_t;
+"91
+[v _stars `S25 ~T0 @X0 -> 8 `i s ]
+[; ;effects.c: 91: static TwinkleStar_t stars[8];
+"92
+[v _twinkle_counter `uc ~T0 @X0 1 s ]
+[i _twinkle_counter
+-> -> 0 `i `uc
+]
+[; ;effects.c: 92: static unsigned char twinkle_counter = 0;
+"94
+[v _twinkle_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 94: void twinkle_init(void) {
+[e :U _twinkle_init ]
+[f ]
+[; ;effects.c: 96: for (unsigned char i = 0; i < 24; i++) {
+"96
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 27  ]
+[e $U 28  ]
+[e :U 27 ]
+{
+[; ;effects.c: 97: leds[i].r = 0;
+"97
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 98: leds[i].g = 0;
+"98
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 99: leds[i].b = 0;
+"99
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"100
+}
+"96
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 27  ]
+[e :U 28 ]
+"100
+}
+[; ;effects.c: 100: }
+[; ;effects.c: 102: for (unsigned char i = 0; i < 8; i++) {
+"102
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 8 `i 30  ]
+[e $U 31  ]
+[e :U 30 ]
+{
+[; ;effects.c: 103: stars[i].pos = (system_tick_ms + i * 29) % 24;
+"103
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 -> % + _system_tick_ms -> * -> _i `i -> 29 `i `ui -> -> 24 `i `ui `uc ]
+[; ;effects.c: 104: stars[i].phase = (system_tick_ms + i * 17) % 100;
+"104
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 -> % + _system_tick_ms -> * -> _i `i -> 17 `i `ui -> -> 100 `i `ui `uc ]
+[; ;effects.c: 105: stars[i].speed = 2 + ((system_tick_ms + i * 11) % 4);
+"105
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 2 -> + -> -> 2 `i `ui % + _system_tick_ms -> * -> _i `i -> 11 `i `ui -> -> 4 `i `ui `uc ]
+"106
+}
+"102
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 8 `i 30  ]
+[e :U 31 ]
+"106
+}
+[; ;effects.c: 106: }
+[; ;effects.c: 107: twinkle_counter = 0;
+"107
+[e = _twinkle_counter -> -> 0 `i `uc ]
+[; ;effects.c: 108: }
+"108
+[e :UE 26 ]
+}
+"110
+[v _twinkle_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 110: void twinkle_update(void) {
+[e :U _twinkle_update ]
+[f ]
+[; ;effects.c: 112: twinkle_counter++;
+"112
+[e ++ _twinkle_counter -> -> 1 `i `uc ]
+[; ;effects.c: 113: if (twinkle_counter < 5) return;
+"113
+[e $ ! < -> _twinkle_counter `i -> 5 `i 34  ]
+[e $UE 33  ]
+[e :U 34 ]
+[; ;effects.c: 114: twinkle_counter = 0;
+"114
+[e = _twinkle_counter -> -> 0 `i `uc ]
+[; ;effects.c: 117: for (unsigned char i = 0; i < 24; i++) {
+"117
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 35  ]
+[e $U 36  ]
+[e :U 35 ]
+{
+[; ;effects.c: 118: leds[i].r = 0;
+"118
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 119: leds[i].g = 0;
+"119
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 120: leds[i].b = 0;
+"120
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"121
+}
+"117
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 35  ]
+[e :U 36 ]
+"121
+}
+[; ;effects.c: 121: }
+[; ;effects.c: 124: for (unsigned char i = 0; i < 8; i++) {
+"124
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 8 `i 38  ]
+[e $U 39  ]
+[e :U 38 ]
+{
+[; ;effects.c: 126: stars[i].phase += stars[i].speed;
+"126
+[e =+ . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 2 ]
+[; ;effects.c: 127: if (stars[i].phase >= 100) {
+"127
+[e $ ! >= -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 100 `i 41  ]
+{
+[; ;effects.c: 128: stars[i].phase = 0;
+"128
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 130: stars[i].pos = (stars[i].pos + 13) % 24;
+"130
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 -> % + -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 `i -> 13 `i -> 24 `i `uc ]
+[; ;effects.c: 131: stars[i].speed = 2 + ((stars[i].speed + i) % 4);
+"131
+[e = . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 2 -> + -> 2 `i % + -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 2 `i -> _i `i -> 4 `i `uc ]
+"132
+}
+[e :U 41 ]
+"135
+[v _brightness `uc ~T0 @X0 1 a ]
+[; ;effects.c: 132: }
+[; ;effects.c: 135: unsigned char brightness;
+[; ;effects.c: 136: if (stars[i].phase < 50) {
+"136
+[e $ ! < -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 50 `i 42  ]
+{
+[; ;effects.c: 138: brightness = (stars[i].phase * 5) + (stars[i].phase * 3 / 10);
+"138
+[e = _brightness -> + * -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 5 `i / * -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 3 `i -> 10 `i `uc ]
+"139
+}
+[; ;effects.c: 139: } else {
+[e $U 43  ]
+[e :U 42 ]
+{
+[; ;effects.c: 141: brightness = ((100 - stars[i].phase) * 5) + ((100 - stars[i].phase) * 3 / 10);
+"141
+[e = _brightness -> + * - -> 100 `i -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 5 `i / * - -> 100 `i -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 1 `i -> 3 `i -> 10 `i `uc ]
+"142
+}
+[e :U 43 ]
+"145
+[v _color `uc ~T0 @X0 1 a ]
+[; ;effects.c: 142: }
+[; ;effects.c: 145: unsigned char color = (stars[i].pos + i) % 3;
+[e = _color -> % + -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 `i -> _i `i -> 3 `i `uc ]
+[; ;effects.c: 146: if (color == 0) {
+"146
+[e $ ! == -> _color `i -> 0 `i 44  ]
+{
+[; ;effects.c: 147: leds[stars[i].pos].r = brightness;
+"147
+[e = . *U + &U _leds * -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 `ux -> -> # *U &U _leds `ui `ux 0 _brightness ]
+"148
+}
+[; ;effects.c: 148: } else if (color == 1) {
+[e $U 45  ]
+[e :U 44 ]
+[e $ ! == -> _color `i -> 1 `i 46  ]
+{
+[; ;effects.c: 149: leds[stars[i].pos].g = brightness;
+"149
+[e = . *U + &U _leds * -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 `ux -> -> # *U &U _leds `ui `ux 1 _brightness ]
+"150
+}
+[; ;effects.c: 150: } else {
+[e $U 47  ]
+[e :U 46 ]
+{
+[; ;effects.c: 151: leds[stars[i].pos].b = brightness;
+"151
+[e = . *U + &U _leds * -> . *U + &U _stars * -> _i `ux -> -> # *U &U _stars `ui `ux 0 `ux -> -> # *U &U _leds `ui `ux 2 _brightness ]
+"152
+}
+[e :U 47 ]
+[e :U 45 ]
+"153
+}
+"124
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 8 `i 38  ]
+[e :U 39 ]
+"153
+}
+[; ;effects.c: 152: }
+[; ;effects.c: 153: }
+[; ;effects.c: 154: }
+"154
+[e :UE 33 ]
+}
+"158
+[v _chase_pos `uc ~T0 @X0 1 s ]
+[i _chase_pos
+-> -> 0 `i `uc
+]
+[; ;effects.c: 158: static unsigned char chase_pos = 0;
+"159
+[v _chase_color_idx `uc ~T0 @X0 1 s ]
+[i _chase_color_idx
+-> -> 0 `i `uc
+]
+[; ;effects.c: 159: static unsigned char chase_color_idx = 0;
+"161
+[v _chase_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 161: void chase_init(void) {
+[e :U _chase_init ]
+[f ]
+[; ;effects.c: 162: chase_pos = 0;
+"162
+[e = _chase_pos -> -> 0 `i `uc ]
+[; ;effects.c: 163: chase_color_idx = 0;
+"163
+[e = _chase_color_idx -> -> 0 `i `uc ]
+[; ;effects.c: 165: for (unsigned char i = 0; i < 24; i++) {
+"165
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 49  ]
+[e $U 50  ]
+[e :U 49 ]
+{
+[; ;effects.c: 166: leds[i].r = 0;
+"166
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 167: leds[i].g = 0;
+"167
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 168: leds[i].b = 0;
+"168
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"169
+}
+"165
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 49  ]
+[e :U 50 ]
+"169
+}
+[; ;effects.c: 169: }
+[; ;effects.c: 170: }
+"170
+[e :UE 48 ]
+}
+"172
+[v _chase_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 172: void chase_update(void) {
+[e :U _chase_update ]
+[f ]
+"174
+[v F655 `uc ~T0 @X0 1 s counter ]
+[i F655
+-> -> 0 `i `uc
+]
+[; ;effects.c: 174: static unsigned char counter = 0;
+[; ;effects.c: 175: counter++;
+"175
+[e ++ F655 -> -> 1 `i `uc ]
+[; ;effects.c: 176: if (counter < 2 * 10) return;
+"176
+[e $ ! < -> F655 `i * -> 2 `i -> 10 `i 53  ]
+[e $UE 52  ]
+[e :U 53 ]
+[; ;effects.c: 177: counter = 0;
+"177
+[e = F655 -> -> 0 `i `uc ]
+[; ;effects.c: 180: for (unsigned char i = 0; i < 24; i++) {
+"180
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 54  ]
+[e $U 55  ]
+[e :U 54 ]
+{
+[; ;effects.c: 181: leds[i].r = 0;
+"181
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 182: leds[i].g = 0;
+"182
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 183: leds[i].b = 0;
+"183
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"184
+}
+"180
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 54  ]
+[e :U 55 ]
+"184
+}
+"187
+[v _r `uc ~T0 @X0 1 a ]
+[; ;effects.c: 184: }
+[; ;effects.c: 187: unsigned char r = 0, g = 0, b = 0;
+[e = _r -> -> 0 `i `uc ]
+[v _g `uc ~T0 @X0 1 a ]
+[e = _g -> -> 0 `i `uc ]
+[v _b `uc ~T0 @X0 1 a ]
+[e = _b -> -> 0 `i `uc ]
+[; ;effects.c: 188: switch (chase_color_idx) {
+"188
+[e $U 58  ]
+{
+[; ;effects.c: 189: case 0: r = 255; g = 0; b = 0; break;
+"189
+[e :U 59 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 57  ]
+[; ;effects.c: 190: case 1: r = 0; g = 255; b = 0; break;
+"190
+[e :U 60 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 57  ]
+[; ;effects.c: 191: case 2: r = 0; g = 0; b = 255; break;
+"191
+[e :U 61 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 57  ]
+[; ;effects.c: 192: case 3: r = 255; g = 255; b = 0; break;
+"192
+[e :U 62 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 57  ]
+[; ;effects.c: 193: case 4: r = 255; g = 0; b = 255; break;
+"193
+[e :U 63 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 57  ]
+[; ;effects.c: 194: case 5: r = 0; g = 255; b = 255; break;
+"194
+[e :U 64 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 57  ]
+"195
+}
+[; ;effects.c: 195: }
+[e $U 57  ]
+"188
+[e :U 58 ]
+[e [\ _chase_color_idx , $ -> -> 0 `i `uc 59
+ , $ -> -> 1 `i `uc 60
+ , $ -> -> 2 `i `uc 61
+ , $ -> -> 3 `i `uc 62
+ , $ -> -> 4 `i `uc 63
+ , $ -> -> 5 `i `uc 64
+ 57 ]
+"195
+[e :U 57 ]
+[; ;effects.c: 198: for (unsigned char i = 0; i < 3; i++) {
+"198
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 3 `i 65  ]
+[e $U 66  ]
+[e :U 65 ]
+{
+"199
+[v _pos `uc ~T0 @X0 1 a ]
+[; ;effects.c: 199: unsigned char pos = (chase_pos + i) % 24;
+[e = _pos -> % + -> _chase_pos `i -> _i `i -> 24 `i `uc ]
+[; ;effects.c: 200: leds[pos].r = r;
+"200
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 0 _r ]
+[; ;effects.c: 201: leds[pos].g = g;
+"201
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 1 _g ]
+[; ;effects.c: 202: leds[pos].b = b;
+"202
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 2 _b ]
+"203
+}
+"198
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 3 `i 65  ]
+[e :U 66 ]
+"203
+}
+"206
+[v _old_pos `uc ~T0 @X0 1 a ]
+[; ;effects.c: 203: }
+[; ;effects.c: 206: unsigned char old_pos = chase_pos;
+[e = _old_pos _chase_pos ]
+[; ;effects.c: 207: chase_pos = (chase_pos + 1) % 24;
+"207
+[e = _chase_pos -> % + -> _chase_pos `i -> 1 `i -> 24 `i `uc ]
+[; ;effects.c: 210: if (chase_pos < old_pos) {
+"210
+[e $ ! < -> _chase_pos `i -> _old_pos `i 68  ]
+{
+[; ;effects.c: 211: chase_color_idx = (chase_color_idx + 1) % 6;
+"211
+[e = _chase_color_idx -> % + -> _chase_color_idx `i -> 1 `i -> 6 `i `uc ]
+"212
+}
+[e :U 68 ]
+[; ;effects.c: 212: }
+[; ;effects.c: 213: }
+"213
+[e :UE 52 ]
+}
+"216
+[v _expand_size `uc ~T0 @X0 1 s ]
+[i _expand_size
+-> -> 0 `i `uc
+]
+[; ;effects.c: 216: static unsigned char expand_size = 0;
+"217
+[v _expand_dir `c ~T0 @X0 1 s ]
+[i _expand_dir
+-> -> 1 `i `c
+]
+[; ;effects.c: 217: static signed char expand_dir = 1;
+"218
+[v _expand_r `uc ~T0 @X0 1 s ]
+[i _expand_r
+-> -> 255 `i `uc
+]
+[v _expand_g `uc ~T0 @X0 1 s ]
+[i _expand_g
+-> -> 0 `i `uc
+]
+[v _expand_b `uc ~T0 @X0 1 s ]
+[i _expand_b
+-> -> 0 `i `uc
+]
+[; ;effects.c: 218: static unsigned char expand_r = 255, expand_g = 0, expand_b = 0;
+"219
+[v _expand_seed `uc ~T0 @X0 1 s ]
+[i _expand_seed
+-> -> 1 `i `uc
+]
+[; ;effects.c: 219: static unsigned char expand_seed = 1;
+"221
+[v _random_value `(uc ~T0 @X0 1 sf1`uc ]
+{
+[; ;effects.c: 221: static unsigned char random_value(unsigned char seed) {
+[e :U _random_value ]
+[v _seed `uc ~T0 @X0 1 r1 ]
+[f ]
+"222
+[v F671 `us ~T0 @X0 1 s rand_state ]
+[i F671
+-> -> 12345 `i `us
+]
+[; ;effects.c: 222: static unsigned short rand_state = 12345;
+[; ;effects.c: 223: rand_state = rand_state * 1103515245 + seed * 257;
+"223
+[e = F671 -> + * -> F671 `l -> 1103515245 `l -> * -> _seed `i -> 257 `i `l `us ]
+[; ;effects.c: 224: return (unsigned char)(rand_state >> 8);
+"224
+[e ) -> >> -> F671 `ui -> 8 `i `uc ]
+[e $UE 69  ]
+[; ;effects.c: 225: }
+"225
+[e :UE 69 ]
+}
+"227
+[v _expand_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 227: void expand_init(void) {
+[e :U _expand_init ]
+[f ]
+[; ;effects.c: 228: expand_size = 0;
+"228
+[e = _expand_size -> -> 0 `i `uc ]
+[; ;effects.c: 229: expand_dir = 1;
+"229
+[e = _expand_dir -> -> 1 `i `c ]
+[; ;effects.c: 230: expand_r = 255;
+"230
+[e = _expand_r -> -> 255 `i `uc ]
+[; ;effects.c: 231: expand_g = 0;
+"231
+[e = _expand_g -> -> 0 `i `uc ]
+[; ;effects.c: 232: expand_b = 0;
+"232
+[e = _expand_b -> -> 0 `i `uc ]
+[; ;effects.c: 233: expand_seed = 1;
+"233
+[e = _expand_seed -> -> 1 `i `uc ]
+[; ;effects.c: 234: for (unsigned char i = 0; i < 24; i++) {
+"234
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 71  ]
+[e $U 72  ]
+[e :U 71 ]
+{
+[; ;effects.c: 235: leds[i].r = 0;
+"235
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 236: leds[i].g = 0;
+"236
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 237: leds[i].b = 0;
+"237
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"238
+}
+"234
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 71  ]
+[e :U 72 ]
+"238
+}
+[; ;effects.c: 238: }
+[; ;effects.c: 239: }
+"239
+[e :UE 70 ]
+}
+"241
+[v _expand_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 241: void expand_update(void) {
+[e :U _expand_update ]
+[f ]
+"242
+[v F678 `uc ~T0 @X0 1 s counter ]
+[i F678
+-> -> 0 `i `uc
+]
+[; ;effects.c: 242: static unsigned char counter = 0;
+[; ;effects.c: 243: counter++;
+"243
+[e ++ F678 -> -> 1 `i `uc ]
+[; ;effects.c: 244: if (counter < 1) return;
+"244
+[e $ ! < -> F678 `i -> 1 `i 75  ]
+[e $UE 74  ]
+[e :U 75 ]
+[; ;effects.c: 245: counter = 0;
+"245
+[e = F678 -> -> 0 `i `uc ]
+[; ;effects.c: 247: if (expand_size >= 24 / 2) {
+"247
+[e $ ! >= -> _expand_size `i / -> 24 `i -> 2 `i 76  ]
+{
+[; ;effects.c: 248: expand_dir = -1;
+"248
+[e = _expand_dir -> -U -> 1 `i `c ]
+"249
+}
+[; ;effects.c: 249: } else if (expand_size == 0 && expand_dir < 0) {
+[e $U 77  ]
+[e :U 76 ]
+[e $ ! && == -> _expand_size `i -> 0 `i < -> _expand_dir `i -> 0 `i 78  ]
+{
+[; ;effects.c: 250: expand_dir = 1;
+"250
+[e = _expand_dir -> -> 1 `i `c ]
+[; ;effects.c: 251: expand_seed += 97;
+"251
+[e =+ _expand_seed -> -> 97 `i `uc ]
+[; ;effects.c: 252: expand_r = random_value(expand_seed);
+"252
+[e = _expand_r ( _random_value (1 _expand_seed ]
+[; ;effects.c: 253: expand_g = random_value(expand_seed + 67);
+"253
+[e = _expand_g ( _random_value (1 -> + -> _expand_seed `i -> 67 `i `uc ]
+[; ;effects.c: 254: expand_b = random_value(expand_seed + 133);
+"254
+[e = _expand_b ( _random_value (1 -> + -> _expand_seed `i -> 133 `i `uc ]
+[; ;effects.c: 255: if (expand_r < 100 && expand_g < 100 && expand_b < 100) {
+"255
+[e $ ! && && < -> _expand_r `i -> 100 `i < -> _expand_g `i -> 100 `i < -> _expand_b `i -> 100 `i 79  ]
+{
+[; ;effects.c: 256: expand_r = 200;
+"256
+[e = _expand_r -> -> 200 `i `uc ]
+"257
+}
+[e :U 79 ]
+[; ;effects.c: 257: }
+[; ;effects.c: 258: for (unsigned char i = 0; i < 24; i++) {
+"258
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 80  ]
+[e $U 81  ]
+[e :U 80 ]
+{
+[; ;effects.c: 259: leds[i].r = 0;
+"259
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 260: leds[i].g = 0;
+"260
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 261: leds[i].b = 0;
+"261
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"262
+}
+"258
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 80  ]
+[e :U 81 ]
+"262
+}
+[; ;effects.c: 262: }
+[; ;effects.c: 263: return;
+"263
+[e $UE 74  ]
+"264
+}
+[e :U 78 ]
+"266
+[e :U 77 ]
+[; ;effects.c: 264: }
+[; ;effects.c: 266: if (expand_dir > 0) {
+[e $ ! > -> _expand_dir `i -> 0 `i 83  ]
+{
+"267
+[v _left `uc ~T0 @X0 1 a ]
+[; ;effects.c: 267: unsigned char left = (12 - expand_size + 24) % 24;
+[e = _left -> % + - -> 12 `i -> _expand_size `i -> 24 `i -> 24 `i `uc ]
+"268
+[v _right `uc ~T0 @X0 1 a ]
+[; ;effects.c: 268: unsigned char right = (12 + expand_size) % 24;
+[e = _right -> % + -> 12 `i -> _expand_size `i -> 24 `i `uc ]
+[; ;effects.c: 269: leds[left].r = expand_r;
+"269
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 0 _expand_r ]
+[; ;effects.c: 270: leds[left].g = expand_g;
+"270
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 1 _expand_g ]
+[; ;effects.c: 271: leds[left].b = expand_b;
+"271
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 2 _expand_b ]
+[; ;effects.c: 272: leds[right].r = expand_r;
+"272
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 0 _expand_r ]
+[; ;effects.c: 273: leds[right].g = expand_g;
+"273
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 1 _expand_g ]
+[; ;effects.c: 274: leds[right].b = expand_b;
+"274
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 2 _expand_b ]
+[; ;effects.c: 275: expand_size++;
+"275
+[e ++ _expand_size -> -> 1 `i `uc ]
+"276
+}
+[; ;effects.c: 276: } else {
+[e $U 84  ]
+[e :U 83 ]
+{
+"277
+[v _left `uc ~T0 @X0 1 a ]
+[; ;effects.c: 277: unsigned char left = (12 - expand_size + 24) % 24;
+[e = _left -> % + - -> 12 `i -> _expand_size `i -> 24 `i -> 24 `i `uc ]
+"278
+[v _right `uc ~T0 @X0 1 a ]
+[; ;effects.c: 278: unsigned char right = (12 + expand_size) % 24;
+[e = _right -> % + -> 12 `i -> _expand_size `i -> 24 `i `uc ]
+[; ;effects.c: 279: leds[left].r = 0;
+"279
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 280: leds[left].g = 0;
+"280
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 281: leds[left].b = 0;
+"281
+[e = . *U + &U _leds * -> _left `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+[; ;effects.c: 282: leds[right].r = 0;
+"282
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 283: leds[right].g = 0;
+"283
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 284: leds[right].b = 0;
+"284
+[e = . *U + &U _leds * -> _right `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+[; ;effects.c: 285: if (expand_size > 0) expand_size--;
+"285
+[e $ ! > -> _expand_size `i -> 0 `i 85  ]
+[e -- _expand_size -> -> 1 `i `uc ]
+[e :U 85 ]
+"286
+}
+[e :U 84 ]
+[; ;effects.c: 286: }
+[; ;effects.c: 287: }
+"287
+[e :UE 74 ]
+}
+"291
+[v _marquee_pos `uc ~T0 @X0 1 s ]
+[i _marquee_pos
+-> -> 0 `i `uc
+]
+[; ;effects.c: 291: static unsigned char marquee_pos = 0;
+"293
+[v _marquee_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 293: void marquee_init(void) {
+[e :U _marquee_init ]
+[f ]
+[; ;effects.c: 294: marquee_pos = 0;
+"294
+[e = _marquee_pos -> -> 0 `i `uc ]
+[; ;effects.c: 296: for (unsigned char i = 0; i < 24; i++) {
+"296
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 87  ]
+[e $U 88  ]
+[e :U 87 ]
+{
+[; ;effects.c: 297: leds[i].r = 0;
+"297
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 298: leds[i].g = 0;
+"298
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 299: leds[i].b = 0;
+"299
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"300
+}
+"296
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 87  ]
+[e :U 88 ]
+"300
+}
+[; ;effects.c: 300: }
+[; ;effects.c: 301: for (unsigned char i = 0; i < 8; i++) {
+"301
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 8 `i 90  ]
+[e $U 91  ]
+[e :U 90 ]
+{
+[; ;effects.c: 302: leds[i].r = 255;
+"302
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 255 `i `uc ]
+[; ;effects.c: 303: leds[i].g = 0;
+"303
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 304: leds[i].b = 0;
+"304
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"305
+}
+"301
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 8 `i 90  ]
+[e :U 91 ]
+"305
+}
+[; ;effects.c: 305: }
+[; ;effects.c: 306: }
+"306
+[e :UE 86 ]
+}
+"308
+[v _marquee_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 308: void marquee_update(void) {
+[e :U _marquee_update ]
+[f ]
+"310
+[v F691 `uc ~T0 @X0 1 s counter ]
+[i F691
+-> -> 0 `i `uc
+]
+"311
+[v F692 `uc ~T0 @X0 1 s color_index ]
+[i F692
+-> -> 0 `i `uc
+]
+[; ;effects.c: 310: static unsigned char counter = 0;
+[; ;effects.c: 311: static unsigned char color_index = 0;
+[; ;effects.c: 313: counter++;
+"313
+[e ++ F691 -> -> 1 `i `uc ]
+[; ;effects.c: 314: if (counter < 2 * 10) return;
+"314
+[e $ ! < -> F691 `i * -> 2 `i -> 10 `i 94  ]
+[e $UE 93  ]
+[e :U 94 ]
+[; ;effects.c: 315: counter = 0;
+"315
+[e = F691 -> -> 0 `i `uc ]
+[; ;effects.c: 318: for (unsigned char i = 0; i < 24; i++) {
+"318
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 95  ]
+[e $U 96  ]
+[e :U 95 ]
+{
+[; ;effects.c: 319: leds[i].r = 0;
+"319
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 320: leds[i].g = 0;
+"320
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 321: leds[i].b = 0;
+"321
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"322
+}
+"318
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 95  ]
+[e :U 96 ]
+"322
+}
+"325
+[v _r `uc ~T0 @X0 1 a ]
+[; ;effects.c: 322: }
+[; ;effects.c: 325: unsigned char r = 0, g = 0, b = 0;
+[e = _r -> -> 0 `i `uc ]
+[v _g `uc ~T0 @X0 1 a ]
+[e = _g -> -> 0 `i `uc ]
+[v _b `uc ~T0 @X0 1 a ]
+[e = _b -> -> 0 `i `uc ]
+[; ;effects.c: 326: switch (color_index) {
+"326
+[e $U 99  ]
+{
+[; ;effects.c: 327: case 0: r = 255; g = 0; b = 0; break;
+"327
+[e :U 100 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 98  ]
+[; ;effects.c: 328: case 1: r = 0; g = 255; b = 0; break;
+"328
+[e :U 101 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 98  ]
+[; ;effects.c: 329: case 2: r = 0; g = 0; b = 255; break;
+"329
+[e :U 102 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 98  ]
+[; ;effects.c: 330: case 3: r = 255; g = 255; b = 0; break;
+"330
+[e :U 103 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 0 `i `uc ]
+[e $U 98  ]
+[; ;effects.c: 331: case 4: r = 255; g = 0; b = 255; break;
+"331
+[e :U 104 ]
+[e = _r -> -> 255 `i `uc ]
+[e = _g -> -> 0 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 98  ]
+[; ;effects.c: 332: case 5: r = 0; g = 255; b = 255; break;
+"332
+[e :U 105 ]
+[e = _r -> -> 0 `i `uc ]
+[e = _g -> -> 255 `i `uc ]
+[e = _b -> -> 255 `i `uc ]
+[e $U 98  ]
+"333
+}
+[; ;effects.c: 333: }
+[e $U 98  ]
+"326
+[e :U 99 ]
+[e [\ F692 , $ -> -> 0 `i `uc 100
+ , $ -> -> 1 `i `uc 101
+ , $ -> -> 2 `i `uc 102
+ , $ -> -> 3 `i `uc 103
+ , $ -> -> 4 `i `uc 104
+ , $ -> -> 5 `i `uc 105
+ 98 ]
+"333
+[e :U 98 ]
+[; ;effects.c: 336: for (unsigned char i = 0; i < 8; i++) {
+"336
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 8 `i 106  ]
+[e $U 107  ]
+[e :U 106 ]
+{
+"337
+[v _pos `uc ~T0 @X0 1 a ]
+[; ;effects.c: 337: unsigned char pos = (marquee_pos + i) % 24;
+[e = _pos -> % + -> _marquee_pos `i -> _i `i -> 24 `i `uc ]
+[; ;effects.c: 338: leds[pos].r = r;
+"338
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 0 _r ]
+[; ;effects.c: 339: leds[pos].g = g;
+"339
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 1 _g ]
+[; ;effects.c: 340: leds[pos].b = b;
+"340
+[e = . *U + &U _leds * -> _pos `ux -> -> # *U &U _leds `ui `ux 2 _b ]
+"341
+}
+"336
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 8 `i 106  ]
+[e :U 107 ]
+"341
+}
+"344
+[v _old_pos `uc ~T0 @X0 1 a ]
+[; ;effects.c: 341: }
+[; ;effects.c: 344: unsigned char old_pos = marquee_pos;
+[e = _old_pos _marquee_pos ]
+[; ;effects.c: 345: marquee_pos = (marquee_pos + 1) % 24;
+"345
+[e = _marquee_pos -> % + -> _marquee_pos `i -> 1 `i -> 24 `i `uc ]
+[; ;effects.c: 348: if (marquee_pos < old_pos) {
+"348
+[e $ ! < -> _marquee_pos `i -> _old_pos `i 109  ]
+{
+[; ;effects.c: 349: color_index = (color_index + 1) % 6;
+"349
+[e = F692 -> % + -> F692 `i -> 1 `i -> 6 `i `uc ]
+"350
+}
+[e :U 109 ]
+[; ;effects.c: 350: }
+[; ;effects.c: 351: }
+"351
+[e :UE 93 ]
+}
+"354
+[v _stack_runner `uc ~T0 @X0 1 s ]
+[i _stack_runner
+-> -> 0 `i `uc
+]
+[; ;effects.c: 354: static unsigned char stack_runner = 0;
+"355
+[v _stack_target `uc ~T0 @X0 1 s ]
+[i _stack_target
+-> -> 23 `i `uc
+]
+[; ;effects.c: 355: static unsigned char stack_target = 23;
+"356
+[v _stack_lit_count `uc ~T0 @X0 1 s ]
+[i _stack_lit_count
+-> -> 0 `i `uc
+]
+[; ;effects.c: 356: static unsigned char stack_lit_count = 0;
+"357
+[v _stack_delay `uc ~T0 @X0 1 s ]
+[i _stack_delay
+-> -> 0 `i `uc
+]
+[; ;effects.c: 357: static unsigned char stack_delay = 0;
+"359
+[v _stack_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 359: void stack_init(void) {
+[e :U _stack_init ]
+[f ]
+[; ;effects.c: 360: stack_runner = 0;
+"360
+[e = _stack_runner -> -> 0 `i `uc ]
+[; ;effects.c: 361: stack_target = 23;
+"361
+[e = _stack_target -> -> 23 `i `uc ]
+[; ;effects.c: 362: stack_lit_count = 0;
+"362
+[e = _stack_lit_count -> -> 0 `i `uc ]
+[; ;effects.c: 363: stack_delay = 0;
+"363
+[e = _stack_delay -> -> 0 `i `uc ]
+[; ;effects.c: 364: for (unsigned char i = 0; i < 24; i++) {
+"364
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 111  ]
+[e $U 112  ]
+[e :U 111 ]
+{
+[; ;effects.c: 365: leds[i].r = 0;
+"365
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 366: leds[i].g = 0;
+"366
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 367: leds[i].b = 0;
+"367
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"368
+}
+"364
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 111  ]
+[e :U 112 ]
+"368
+}
+[; ;effects.c: 368: }
+[; ;effects.c: 369: }
+"369
+[e :UE 110 ]
+}
+"371
+[v _stack_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 371: void stack_update(void) {
+[e :U _stack_update ]
+[f ]
+"373
+[v F709 `uc ~T0 @X0 1 s counter ]
+[i F709
+-> -> 0 `i `uc
+]
+[; ;effects.c: 373: static unsigned char counter = 0;
+[; ;effects.c: 374: counter++;
+"374
+[e ++ F709 -> -> 1 `i `uc ]
+[; ;effects.c: 375: if (counter < 1) return;
+"375
+[e $ ! < -> F709 `i -> 1 `i 115  ]
+[e $UE 114  ]
+[e :U 115 ]
+[; ;effects.c: 376: counter = 0;
+"376
+[e = F709 -> -> 0 `i `uc ]
+[; ;effects.c: 379: if (stack_lit_count >= 24) {
+"379
+[e $ ! >= -> _stack_lit_count `i -> 24 `i 116  ]
+{
+[; ;effects.c: 380: stack_delay++;
+"380
+[e ++ _stack_delay -> -> 1 `i `uc ]
+[; ;effects.c: 381: if (stack_delay > 30) {
+"381
+[e $ ! > -> _stack_delay `i -> 30 `i 117  ]
+{
+[; ;effects.c: 382: stack_init();
+"382
+[e ( _stack_init ..  ]
+"383
+}
+[e :U 117 ]
+[; ;effects.c: 383: }
+[; ;effects.c: 384: return;
+"384
+[e $UE 114  ]
+"385
+}
+[e :U 116 ]
+[; ;effects.c: 385: }
+[; ;effects.c: 388: for (unsigned char i = 0; i < 24; i++) {
+"388
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 118  ]
+[e $U 119  ]
+[e :U 118 ]
+{
+[; ;effects.c: 389: leds[i].r = 0;
+"389
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 390: leds[i].g = 0;
+"390
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 391: leds[i].b = 0;
+"391
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"392
+}
+"388
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 118  ]
+[e :U 119 ]
+"392
+}
+[; ;effects.c: 392: }
+[; ;effects.c: 395: for (unsigned char i = stack_target + 1; i < 24; i++) {
+"395
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> + -> _stack_target `i -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 121  ]
+[e $U 122  ]
+[e :U 121 ]
+{
+[; ;effects.c: 396: leds[i].r = 255;
+"396
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 255 `i `uc ]
+[; ;effects.c: 397: leds[i].g = 100;
+"397
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 100 `i `uc ]
+[; ;effects.c: 398: leds[i].b = 50;
+"398
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 50 `i `uc ]
+"399
+}
+"395
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 121  ]
+[e :U 122 ]
+"399
+}
+[; ;effects.c: 399: }
+[; ;effects.c: 402: leds[stack_runner].r = 255;
+"402
+[e = . *U + &U _leds * -> _stack_runner `ux -> -> # *U &U _leds `ui `ux 0 -> -> 255 `i `uc ]
+[; ;effects.c: 403: leds[stack_runner].g = 255;
+"403
+[e = . *U + &U _leds * -> _stack_runner `ux -> -> # *U &U _leds `ui `ux 1 -> -> 255 `i `uc ]
+[; ;effects.c: 404: leds[stack_runner].b = 0;
+"404
+[e = . *U + &U _leds * -> _stack_runner `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+[; ;effects.c: 407: stack_runner++;
+"407
+[e ++ _stack_runner -> -> 1 `i `uc ]
+[; ;effects.c: 408: if (stack_runner > stack_target) {
+"408
+[e $ ! > -> _stack_runner `i -> _stack_target `i 124  ]
+{
+[; ;effects.c: 409: stack_lit_count++;
+"409
+[e ++ _stack_lit_count -> -> 1 `i `uc ]
+[; ;effects.c: 410: if (stack_target > 0) {
+"410
+[e $ ! > -> _stack_target `i -> 0 `i 125  ]
+{
+[; ;effects.c: 411: stack_target--;
+"411
+[e -- _stack_target -> -> 1 `i `uc ]
+"412
+}
+[e :U 125 ]
+[; ;effects.c: 412: }
+[; ;effects.c: 413: stack_runner = 0;
+"413
+[e = _stack_runner -> -> 0 `i `uc ]
+"414
+}
+[e :U 124 ]
+[; ;effects.c: 414: }
+[; ;effects.c: 415: }
+"415
+[e :UE 114 ]
+}
+"419
+[v _police_state `uc ~T0 @X0 1 s ]
+[i _police_state
+-> -> 0 `i `uc
+]
+[; ;effects.c: 419: static unsigned char police_state = 0;
+"420
+[v _police_counter `uc ~T0 @X0 1 s ]
+[i _police_counter
+-> -> 0 `i `uc
+]
+[; ;effects.c: 420: static unsigned char police_counter = 0;
+"422
+[v _police_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 422: void police_init(void) {
+[e :U _police_init ]
+[f ]
+[; ;effects.c: 423: police_state = 0;
+"423
+[e = _police_state -> -> 0 `i `uc ]
+[; ;effects.c: 424: police_counter = 0;
+"424
+[e = _police_counter -> -> 0 `i `uc ]
+[; ;effects.c: 425: for (unsigned char i = 0; i < 24; i++) {
+"425
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 127  ]
+[e $U 128  ]
+[e :U 127 ]
+{
+[; ;effects.c: 426: leds[i].r = 0;
+"426
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 -> -> 0 `i `uc ]
+[; ;effects.c: 427: leds[i].g = 0;
+"427
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 -> -> 0 `i `uc ]
+[; ;effects.c: 428: leds[i].b = 0;
+"428
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 -> -> 0 `i `uc ]
+"429
+}
+"425
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 127  ]
+[e :U 128 ]
+"429
+}
+[; ;effects.c: 429: }
+[; ;effects.c: 430: }
+"430
+[e :UE 126 ]
+}
+"432
+[v _police_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 432: void police_update(void) {
+[e :U _police_update ]
+[f ]
+[; ;effects.c: 433: police_counter++;
+"433
+[e ++ _police_counter -> -> 1 `i `uc ]
+[; ;effects.c: 434: if (police_counter < 5) return;
+"434
+[e $ ! < -> _police_counter `i -> 5 `i 131  ]
+[e $UE 130  ]
+[e :U 131 ]
+[; ;effects.c: 435: police_counter = 0;
+"435
+[e = _police_counter -> -> 0 `i `uc ]
+"437
+[v _r `uc ~T0 @X0 1 a ]
+[; ;effects.c: 437: unsigned char r = 0, g = 0, b = 0;
+[e = _r -> -> 0 `i `uc ]
+[v _g `uc ~T0 @X0 1 a ]
+[e = _g -> -> 0 `i `uc ]
+[v _b `uc ~T0 @X0 1 a ]
+[e = _b -> -> 0 `i `uc ]
+[; ;effects.c: 438: if (police_state == 0) {
+"438
+[e $ ! == -> _police_state `i -> 0 `i 132  ]
+{
+[; ;effects.c: 439: r = 255;
+"439
+[e = _r -> -> 255 `i `uc ]
+"440
+}
+[; ;effects.c: 440: } else {
+[e $U 133  ]
+[e :U 132 ]
+{
+[; ;effects.c: 441: b = 255;
+"441
+[e = _b -> -> 255 `i `uc ]
+"442
+}
+[e :U 133 ]
+[; ;effects.c: 442: }
+[; ;effects.c: 444: for (unsigned char i = 0; i < 24; i++) {
+"444
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 24 `i 134  ]
+[e $U 135  ]
+[e :U 134 ]
+{
+[; ;effects.c: 445: leds[i].r = r;
+"445
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 0 _r ]
+[; ;effects.c: 446: leds[i].g = g;
+"446
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 1 _g ]
+[; ;effects.c: 447: leds[i].b = b;
+"447
+[e = . *U + &U _leds * -> _i `ux -> -> # *U &U _leds `ui `ux 2 _b ]
+"448
+}
+"444
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 24 `i 134  ]
+[e :U 135 ]
+"448
+}
+[; ;effects.c: 448: }
+[; ;effects.c: 450: police_state = !police_state;
+"450
+[e = _police_state -> -> ! != -> _police_state `i -> -> -> 0 `i `uc `i `i `uc ]
+[; ;effects.c: 451: }
+"451
+[e :UE 130 ]
+}
+"453
+[v _effects `CS2 ~T0 @X0 -> 0 `x s ]
+[i _effects
+:U ..
+:U ..
+"454
+&U _breath_init
+&U _breath_update
+..
+:U ..
+"455
+&U _twinkle_init
+&U _twinkle_update
+..
+:U ..
+"456
+&U _chase_init
+&U _chase_update
+..
+:U ..
+"457
+&U _expand_init
+&U _expand_update
+..
+:U ..
+"458
+&U _marquee_init
+&U _marquee_update
+..
+:U ..
+"459
+&U _stack_init
+&U _stack_update
+..
+:U ..
+"460
+&U _police_init
+&U _police_update
+..
+..
+]
+[; ;effects.c: 453: const static Effect_t effects[] = {
+[; ;effects.c: 454: {breath_init, breath_update},
+[; ;effects.c: 455: {twinkle_init, twinkle_update},
+[; ;effects.c: 456: {chase_init, chase_update},
+[; ;effects.c: 457: {expand_init, expand_update},
+[; ;effects.c: 458: {marquee_init, marquee_update},
+[; ;effects.c: 459: {stack_init, stack_update},
+[; ;effects.c: 460: {police_init, police_update}
+[; ;effects.c: 461: };
+"464
+[v _effect_init `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 464: void effect_init(void) {
+[e :U _effect_init ]
+[f ]
+[; ;effects.c: 466: if (current_effect < EFFECT_COUNT) {
+"466
+[e $ ! < -> _current_effect `i -> . `E587 7 `i 138  ]
+{
+[; ;effects.c: 467: effects[current_effect].init();
+"467
+[e ( *U . *U + &U _effects * -> _current_effect `ux -> -> # *U &U _effects `ui `ux 0 ..  ]
+"468
+}
+[e :U 138 ]
+[; ;effects.c: 468: }
+[; ;effects.c: 469: }
+"469
+[e :UE 137 ]
+}
+"471
+[v _effect_execute `(v ~T0 @X0 1 ef1`E587 ]
+{
+[; ;effects.c: 471: void effect_execute(EffectMode_t mode) {
+[e :U _effect_execute ]
+[v _mode `E587 ~T0 @X0 1 r1 ]
+[f ]
+[; ;effects.c: 472: current_effect = mode;
+"472
+[e = _current_effect _mode ]
+[; ;effects.c: 473: effects[mode].init();
+"473
+[e ( *U . *U + &U _effects * -> _mode `ux -> -> # *U &U _effects `ui `ux 0 ..  ]
+[; ;effects.c: 474: }
+"474
+[e :UE 139 ]
+}
+"477
+[v _effects_update `(v ~T0 @X0 1 ef ]
+{
+[; ;effects.c: 477: void effects_update(void) {
+[e :U _effects_update ]
+[f ]
+[; ;effects.c: 478: if (current_effect < EFFECT_COUNT) {
+"478
+[e $ ! < -> _current_effect `i -> . `E587 7 `i 141  ]
+{
+[; ;effects.c: 479: effects[current_effect].update();
+"479
+[e ( *U . *U + &U _effects * -> _current_effect `ux -> -> # *U &U _effects `ui `ux 1 ..  ]
+"480
+}
+[e :U 141 ]
+[; ;effects.c: 480: }
+[; ;effects.c: 481: }
+"481
+[e :UE 140 ]
+}

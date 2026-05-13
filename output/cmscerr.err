@@ -1,0 +1,71 @@
+Warning[373]:	H:\8bit-RGB\effects.c	第37行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第43行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第55行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第103行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第104行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第105行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第130行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第131行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第138行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第141行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第145行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第199行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第207行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第211行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第223行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第253行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第254行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第267行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第268行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第277行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第278行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第337行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第345行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第349行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第395行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\effects.c	第450行	implicit signed to unsigned conversion
+Warning[373]:	H:\8bit-RGB\main.c	第178行	implicit signed to unsigned conversion
+Warning[752]:	H:\8bit-RGB\effects.c	第37行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第43行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第55行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第59行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第103行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第104行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第105行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第130行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第131行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第138行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第141行	conversion to shorter data type
+Warning[751]:	H:\8bit-RGB\effects.c	第141行	arithmetic overflow in constant expression
+Warning[752]:	H:\8bit-RGB\effects.c	第145行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第199行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第207行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第211行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第223行	conversion to shorter data type
+Warning[751]:	H:\8bit-RGB\effects.c	第223行	arithmetic overflow in constant expression
+Warning[752]:	H:\8bit-RGB\effects.c	第224行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第248行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第253行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第254行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第267行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第268行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第277行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第278行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第337行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第345行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第349行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\effects.c	第395行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\main.c	第133行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\main.c	第144行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\main.c	第147行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\main.c	第150行	conversion to shorter data type
+Warning[752]:	H:\8bit-RGB\main.c	第201行	conversion to shorter data type
+
+Memory Summary:
+    Program space        used   7B9h (  1977) of   800h words   ( 96.5%)
+    Data space           used    9Ch (   156) of    A0h bytes   ( 97.5%)
+    EEPROM space         None available
+    Data stack space     used     0h (     0) of     Ch bytes   (  0.0%)
+    Configuration bits   used     0h (     0) of     2h words   (  0.0%)
+    ID Location space    used     0h (     0) of     4h bytes   (  0.0%)
+

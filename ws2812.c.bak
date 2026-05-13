@@ -1,0 +1,238 @@
+#include <sc.h>
+
+// 引脚定义
+#define WS2812_PIN RB1
+#define WS2812_TRIS TRISB1
+
+// 颜色结构体（GRB顺序）
+typedef struct {
+    unsigned char g;
+    unsigned char r;
+    unsigned char b;
+} RGB_Color;
+
+// 预定义常用颜色
+RGB_Color COLOR_RED = {0, 255, 0};
+RGB_Color COLOR_GREEN = {255, 0, 0};
+RGB_Color COLOR_BLUE = {0, 0, 255};
+RGB_Color COLOR_WHITE = {255, 255, 255};
+RGB_Color COLOR_YELLOW = {255, 255, 0};
+RGB_Color COLOR_CYAN = {255, 0, 255};
+RGB_Color COLOR_MAGENTA = {0, 255, 255};
+RGB_Color COLOR_OFF = {0, 0, 0};
+
+// LED数量
+#define LED_COUNT 16
+
+// LED数据缓冲区
+RGB_Color led_buffer[LED_COUNT];
+
+// 函数声明
+void delay_ns(unsigned int cycles);
+void send_bit(unsigned char bit_val);
+void send_byte(unsigned char data);
+void send_pixel(RGB_Color color);
+void ws2812_send_all(void);
+void set_led_color(unsigned char index, RGB_Color color);
+void set_all_leds(RGB_Color color);
+RGB_Color color_gradient(unsigned char position, unsigned char max_pos);
+RGB_Color color_brightness(RGB_Color color, unsigned char brightness);
+void ws2812_init(void);
+
+// 软件延时函数
+void delay_ns(unsigned int cycles) {
+    while(cycles--) {
+        asm("nop");
+    }
+}
+
+// 发送一个位
+void send_bit(unsigned char bit_val) {
+    if (bit_val) {
+        // 发送1码：高700ns，低800ns
+        WS2812_PIN = 1;
+        delay_ns(28);  // 700ns @ 16MHz/4T
+        WS2812_PIN = 0;
+        delay_ns(32);  // 800ns @ 16MHz/4T
+    } else {
+        // 发送0码：高350ns，低800ns
+        WS2812_PIN = 1;
+        delay_ns(14);  // 350ns @ 16MHz/4T
+        WS2812_PIN = 0;
+        delay_ns(32);  // 800ns @ 16MHz/4T
+    }
+}
+
+// 发送一个字节
+void send_byte(unsigned char data) {
+    unsigned char i;
+    for(i = 0; i < 8; i++) {
+        send_bit((data & 0x80) ? 1 : 0);
+        data <<= 1;
+    }
+}
+
+// 发送一个像素（GRB顺序）
+void send_pixel(RGB_Color color) {
+    send_byte(color.g);  // G
+    send_byte(color.r);  // R
+    send_byte(color.b);  // B
+}
+
+// 发送所有LED数据
+void ws2812_send_all(void) {
+    unsigned char i;
+    
+    // 发送所有LED数据
+    for(i = 0; i < LED_COUNT; i++) {
+        send_pixel(led_buffer[i]);
+    }
+    
+    // 复位信号（至少50μs低电平）
+    WS2812_PIN = 0;
+    delay_ns(2000);  // 50μs @ 16MHz/4T
+}
+
+// 设置单个LED颜色
+void set_led_color(unsigned char index, RGB_Color color) {
+    if (index < LED_COUNT) {
+        led_buffer[index] = color;
+    }
+}
+
+// 设置所有LED颜色
+void set_all_leds(RGB_Color color) {
+    unsigned char i;
+    for(i = 0; i < LED_COUNT; i++) {
+        led_buffer[i] = color;
+    }
+}
+
+// 渐变颜色函数
+RGB_Color color_gradient(unsigned char position, unsigned char max_pos) {
+    RGB_Color color;
+    unsigned int temp;
+    
+    // 简单的彩虹渐变
+    if (position < max_pos/3) {
+        // 红->黄
+        color.r = 255;
+        temp = (unsigned int)position * 255 / (max_pos/3);
+        color.g = (unsigned char)temp;
+        color.b = 0;
+    } else if (position < 2*max_pos/3) {
+        // 黄->绿
+        temp = 255 - ((unsigned int)(position - max_pos/3) * 255 / (max_pos/3));
+        color.r = (unsigned char)temp;
+        color.g = 255;
+        color.b = 0;
+    } else {
+        // 绿->蓝
+        color.r = 0;
+        temp = 255 - ((unsigned int)(position - 2*max_pos/3) * 255 / (max_pos/3));
+        color.g = (unsigned char)temp;
+        temp = ((unsigned int)(position - 2*max_pos/3) * 255 / (max_pos/3));
+        color.b = (unsigned char)temp;
+    }
+    
+    return color;
+}
+
+// 亮度调整函数
+RGB_Color color_brightness(RGB_Color color, unsigned char brightness) {
+    RGB_Color result;
+    unsigned int temp;
+    
+    // brightness: 0-255
+    temp = (unsigned int)color.r * brightness / 255;
+    result.r = (unsigned char)temp;
+    
+    temp = (unsigned int)color.g * brightness / 255;
+    result.g = (unsigned char)temp;
+    
+    temp = (unsigned int)color.b * brightness / 255;
+    result.b = (unsigned char)temp;
+    
+    return result;
+}
+
+// 初始化函数
+void ws2812_init(void) {
+    // 初始化IO
+    ANSEL1 &= ~(1 << 1);  // 禁用RB1模拟功能
+    WS2812_TRIS = 0;      // RB1设为输出
+    WS2812_PIN = 0;       // 初始低电平
+    
+    // 初始化所有LED为关闭状态
+    set_all_leds(COLOR_OFF);
+    ws2812_send_all();
+}
+
+// 主函数
+void main(void) {
+    unsigned char i;
+    unsigned char mode = 0;
+    unsigned char brightness = 128;  // 50%亮度
+    static unsigned char breathe_dir = 0;  // 呼吸灯方向
+    
+    // 初始化WS2812B
+    ws2812_init();
+    
+    while(1) {
+        switch(mode) {
+            case 0: // 模式0：所有LED红色
+                set_all_leds(color_brightness(COLOR_RED, brightness));
+                break;
+                
+            case 1: // 模式1：所有LED绿色
+                set_all_leds(color_brightness(COLOR_GREEN, brightness));
+                break;
+                
+            case 2: // 模式2：所有LED蓝色
+                set_all_leds(color_brightness(COLOR_BLUE, brightness));
+                break;
+                
+            case 3: // 模式3：所有LED白色
+                set_all_leds(color_brightness(COLOR_WHITE, brightness));
+                break;
+                
+            case 4: // 模式4：彩虹渐变
+                for(i = 0; i < LED_COUNT; i++) {
+                    set_led_color(i, color_gradient(i, LED_COUNT));
+                }
+                break;
+                
+            case 5: // 模式5：流水灯（红色）
+                for(i = 0; i < LED_COUNT; i++) {
+                    set_all_leds(COLOR_OFF);
+                    set_led_color(i, color_brightness(COLOR_RED, brightness));
+                    ws2812_send_all();
+                    delay_ns(20000);  // 5ms延迟
+                }
+                continue;  // 跳过下面的ws2812_send_all()
+                
+            case 6: // 模式6：呼吸灯效果
+                if (breathe_dir == 0) {
+                    brightness++;
+                    if (brightness >= 255) breathe_dir = 1;
+                } else {
+                    brightness--;
+                    if (brightness <= 10) breathe_dir = 0;
+                }
+                set_all_leds(color_brightness(COLOR_CYAN, brightness));
+                break;
+        }
+        
+        // 发送数据到LED（模式5除外）
+        if (mode != 5) {
+            ws2812_send_all();
+        }
+        
+        // 延迟
+        delay_ns(400000);  // 100ms延迟
+        
+        // 切换模式
+        mode++;
+        if (mode > 6) mode = 0;
+    }
+}

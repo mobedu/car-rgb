@@ -1,0 +1,1 @@
+ main.d  main.p1:  H:/8bit-RGB/main.c H:/8bit-RGB/config.h H:/8bit-RGB/ws2812.h H:/8bit-RGB/effects.h

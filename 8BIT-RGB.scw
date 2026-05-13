@@ -1,0 +1,16 @@
+[PROJECT]
+Version=200
+Compile=1
+Device=SC8F072
+OptValue=-local,-asmfile,+asm,-speed,+space,-debug
+RuntimeValue=
+WarningValue=-8
+config=FEFD,FAEF,FFFF,FFFF,
+[FILE]
+SourceFile=effects.c
+SourceFile=key.c
+SourceFile=main.c
+HeadFile=config.h
+HeadFile=effects.h
+HeadFile=key.h
+HeadFile=ws2812.h
