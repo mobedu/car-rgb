@@ -1,0 +1,30 @@
+# Build outputs
+output/
+
+# Project files (binary/database)
+*.lst
+*.ram
+*.scx
+*.scw
+*.map
+*.sym
+*.bin
+*.hex
+*.obj
+*.rlf
+*.as
+*.hxl
+*.cmf
+*.sdb
+*.p1
+*.pre
+*.err
+
+# CSV data (hardware config)
+*.csv
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store

@@ -1,1 +1,0 @@
- ws2812.d  ws2812.p1:  H:/8bit-RGB/ws2812.c H:/8bit-RGB/config.h

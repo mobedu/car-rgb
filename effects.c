@@ -18,6 +18,13 @@ void breath_init(void) {
     breath_dir = 1;
     breath_color = 0;
     breath_transition = 0;
+
+    // 初始化为红色高亮度（便于调试）
+    for (unsigned char i = 0; i < LED_COUNT; i++) {
+        leds[i].r = 255;  // 改为最大亮度
+        leds[i].g = 0;
+        leds[i].b = 0;
+    }
 }
 
 void breath_update(void) {
@@ -161,12 +168,16 @@ static unsigned char chase_color_idx = 0;  // 0=, 1=, 2=, 3=, 4=, 5=
 void chase_init(void) {
     chase_pos = 0;
     chase_color_idx = 0;
-    // LED
+
+    // 初始LED：前3颗设为红色
     for (unsigned char i = 0; i < LED_COUNT; i++) {
         leds[i].r = 0;
         leds[i].g = 0;
         leds[i].b = 0;
     }
+    leds[0].r = 255;
+    leds[1].r = 255;
+    leds[2].r = 255;
 }
 
 void chase_update(void) {
@@ -422,8 +433,10 @@ static unsigned char police_counter = 0;
 void police_init(void) {
     police_state = 0;
     police_counter = 0;
+
+    // 初始LED：全红色
     for (unsigned char i = 0; i < LED_COUNT; i++) {
-        leds[i].r = 0;
+        leds[i].r = 255;
         leds[i].g = 0;
         leds[i].b = 0;
     }

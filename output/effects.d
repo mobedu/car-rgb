@@ -1,1 +1,0 @@
- effects.d  effects.p1:  H:/8bit-RGB/effects.c H:/8bit-RGB/config.h H:/8bit-RGB/ws2812.h
