@@ -4,6 +4,6 @@
 #include <sc.h>
 #include "config.h"
 
-void ws2812_update_RGB(RGB_t *leds, unsigned char num);
+void ws2812_update(RGB_t *leds, unsigned char num);
 
 #endif

@@ -1,12 +1,8 @@
-
 #ifndef __EFFECTS_H
 #define __EFFECTS_H
-
-#include <sc.h>
 #include "config.h"
 
-void effect_init(void);
-void effect_execute(EffectMode_t mode);
-void effects_update(void);
-
+void effects_init(void);
+void effects_next_color(void);
+void effects_apply(RGB_t *leds);
 #endif

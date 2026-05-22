@@ -23,6 +23,9 @@ output/
 # CSV data (hardware config)
 *.csv
 
+# SCW project file
+car-rgb.scw
+
 # IDE
 .vscode/
 
