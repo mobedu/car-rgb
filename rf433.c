@@ -8,7 +8,7 @@ volatile unsigned char rf433_24bit_received = 0;
 volatile unsigned char code1 = 0, code2 = 0, code3 = 0;
 volatile unsigned int rf433_debug = 0;
 
-static volatile unsigned char rf_syn = 0;
+static volatile unsigned char rf_syn = 0;  // 0=idle, 1=receiving, 2=wait EOB
 static volatile unsigned char rf_num = 0;
 static volatile unsigned int s = 0;
 volatile unsigned long isr_count = 0;
@@ -16,7 +16,7 @@ volatile unsigned long isr_count = 0;
 static volatile unsigned int low_width = 0;
 static volatile unsigned int high_width = 0;
 static volatile unsigned int prev_high = 0;  // 保存上一个HIGH宽度用于bit解码
-static volatile unsigned char high_captured = 0;  // 标记第一个bit的HIGH是否已捕获
+static volatile unsigned char high_captured = 0;  // 标记HIGH是否已捕获
 static volatile unsigned char last_level = 0;
 
 // RF433解码参数（1527协议，基于19.csv逻辑分析仪实测）
@@ -65,6 +65,7 @@ unsigned char rf433_has_command(void) {
 unsigned char rf433_get_command(void) { return rf433_command; }
 void rf433_clear_command(void) { rf433_command = 0; }
 
+// 重构的ISR：清晰的三段式状态机
 void rf433_timer_isr(void) {
     unsigned char rf_level;
     unsigned char data_bit;
@@ -81,6 +82,7 @@ void rf433_timer_isr(void) {
     rf_level = (PORTA >> PIN_RF_DATA_BIT) & 1;
 
     if (rf_level == last_level) {
+        // 同一电平持续，累加宽度
         if (rf_level == 0) {
             low_width++;
         } else {
@@ -89,33 +91,36 @@ void rf433_timer_isr(void) {
     } else {
         // 边沿变化
         if (rf_level == 1) {
-            // 上升沿：低电平结束
-            if (low_width >= SYNC_MIN) {
-                if (low_width >= EOB_MIN) {
-                    // EOB (>36ms低电平): 按键发射结束，确认命令
-                    if (rf_syn == 2 && !rf433_received && rf433_command != 0) {
-                        rf433_received = 1;
-                        s = 5000;
-                    }
-                    rf_syn = 0;
-                    rf_num = 0;
-                } else if (rf_syn != 1) {
-                    // 常规同步头 (10-36ms低电平)，仅在非接收状态时开始新帧
-                    rf_syn = 1;
-                    rf_num = 0;
-                    code1 = code2 = code3 = 0;
-                    prev_high = 0;  // 需要特殊处理第一个bit
+            // ===== 上升沿：低电平结束 =====
+            // 先检查EOB（长低电平 >36ms）
+            if (low_width >= EOB_MIN && rf_syn == 2) {
+                // EOB：按键发射结束，确认命令
+                if (!rf433_received && rf433_command != 0) {
+                    rf433_received = 1;
+                    s = 5000;
                 }
-                // rf_syn==1时忽略同步头(噪声防护)
+                rf_syn = 0;
+                rf_num = 0;
             }
+            // 检查同步头（10-36ms低电平，仅在idle状态）
+            else if (low_width >= SYNC_MIN && rf_syn == 0) {
+                // 同步头：开始新帧接收
+                rf_syn = 1;
+                rf_num = 0;
+                code1 = code2 = code3 = 0;
+                high_captured = 0;
+                prev_high = 0;
+            }
+            // 数据位解码（仅在接收状态且未完成24bit）
             else if (rf_syn == 1 && rf_num < BIT_COUNT) {
-                // 数据位解码: 比较上一个HIGH和当前LOW
                 if (high_captured && prev_high >= BIT_MIN_WIDTH && low_width >= BIT_MIN_WIDTH) {
+                    // 解码bit: HIGH>LOW为1，HIGH<LOW为0
                     if (prev_high > low_width) {
                         data_bit = 1;
                     } else {
                         data_bit = 0;
                     }
+                    // 存入code
                     if (data_bit) {
                         byte_idx = rf_num / 8;
                         bit_pos = 7 - (rf_num % 8);
@@ -124,12 +129,13 @@ void rf433_timer_isr(void) {
                         else if (byte_idx == 2) code3 |= (1 << bit_pos);
                     }
                     rf_num++;
-                    high_captured = 0;  // 清除标记，准备下一个bit
+                    high_captured = 0;
                 }
-                // 检查是否完成24位
+                // 检查是否完成24bit
                 if (rf_num >= BIT_COUNT) {
                     rf433_24bit_received = 1;
                     rf433_debug = (code1 << 8) | code2;
+                    // 验证客户码和命令码
                     if (code1 == 0xFF && code2 == 0xFF &&
                         (code3 == 0x01 || code3 == 0x03 || code3 == 0x04 ||
                          code3 == 0x05 || code3 == 0x06 || code3 == 0x07 || code3 == 0x09 ||
@@ -137,17 +143,17 @@ void rf433_timer_isr(void) {
                          code3 == 0x0F || code3 == 0x10 || code3 == 0x11 || code3 == 0x12 ||
                          code3 == 0x13 || code3 == 0x15)) {
                         rf433_command = code3;
-                        rf_syn = 2;  // 仅用户遥控器推进状态，等待EOB
+                        rf_syn = 2;  // 等待EOB确认
                     }
                     rf_num = 0;
                 }
             }
             high_width = 0;
         } else {
-            // 下降沿：高电平结束，保存HIGH宽度供下次上升沿比较
+            // ===== 下降沿：高电平结束 =====
             if (rf_syn == 1 && rf_num < BIT_COUNT) {
                 prev_high = high_width;
-                high_captured = 1;  // 标记HIGH已捕获
+                high_captured = 1;
             }
             low_width = 0;
         }
