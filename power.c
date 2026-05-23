@@ -1,6 +1,6 @@
 #include "power.h"
 
-unsigned char power_state = 0;
+// 注意：power_state 在 main.c 中定义，这里只使用 extern 声明
 
 void power_off_leds(RGB_t *leds) {
     unsigned char i;

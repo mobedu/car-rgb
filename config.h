@@ -6,10 +6,11 @@
 #define LED_COUNT        10
 
 // ========== 引脚定义 (按 PIN.md，SC8F073更新) ==========
-#define PIN_KEY_BIT     0    // RA0 bit position - 按键
+#define PIN_KEY_BIT     5    // RA5 bit position - 按键
+#define PIN_RF_DATA_BIT 0    // RA0 bit position - RF数据
 #define PIN_SHUT_BIT    4    // RB4 bit position - RF SHUT
 #define PIN_LED_POWER_BIT 1  // RA1 bit position - WS2812供电控制
-#define PIN_WS2812B_BIT 1    // RB1 bit position - WS2812数据
+#define PIN_WS2812B_BIT 7    // RB7 bit position - WS2812数据
 
 #define PIN_KEY_READ()  ((PORTA >> PIN_KEY_BIT) & 1)
 #define PIN_SHUT_LOW()  PORTB &= ~(1 << PIN_SHUT_BIT)
@@ -67,18 +68,7 @@ typedef struct {
     unsigned char b;
 } RGB_t;
 
-typedef enum {
-    EFFECT_SLOW_FLASH = 0,
-    EFFECT_FAST_FLASH,
-    EFFECT_BREATH_10COLOR,
-    EFFECT_SLOW_RAINBOW,
-    EFFECT_FAST_RAINBOW,
-    EFFECT_POLICE_NEW,
-    EFFECT_MARQUEE_NEW
-} EffectMode_t;
-
-extern volatile EffectMode_t current_effect;
 extern RGB_t leds[LED_COUNT];
-extern unsigned char g_color_index;
+extern unsigned char color_index;
 
 #endif
