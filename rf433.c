@@ -1,6 +1,7 @@
 #include <sc.h>
 #include "rf433.h"
 #include "config.h"
+#include "ws2812.h"
 
 volatile unsigned char rf433_received = 0;
 volatile unsigned char rf433_command = 0;
@@ -8,30 +9,50 @@ volatile unsigned char rf433_24bit_received = 0;
 volatile unsigned char code1 = 0, code2 = 0, code3 = 0;
 volatile unsigned int rf433_debug = 0;
 
-static volatile unsigned char rf_syn = 0;  // 0=idle, 1=receiving, 2=wait EOB
+// RF调试变量 - 用于LED状态反馈
+volatile unsigned char rf_debug_sync = 0;   // 同步头计数
+volatile unsigned char rf_debug_bits = 0;    // 收到的bit数
+volatile unsigned char rf_debug_state = 0;    // 0=idle, 1=syncok, 2=receiving, 3=done, 4=cmd_valid
+
+static volatile unsigned char rf_syn = 0;  // 0=idle, 1=synced, 2=receiving
 static volatile unsigned char rf_num = 0;
 static volatile unsigned int s = 0;
+static volatile unsigned int rf_timeout = 0;  // 接收超时计数器
 volatile unsigned long isr_count = 0;
+
+// 接收超时 (~500ms)
+#define RF_RX_TIMEOUT    25000  // 18us * 25000 ≈ 450ms
 
 static volatile unsigned int low_width = 0;
 static volatile unsigned int high_width = 0;
-static volatile unsigned int prev_high = 0;  // 保存上一个HIGH宽度用于bit解码
-static volatile unsigned char high_captured = 0;  // 标记HIGH是否已捕获
 static volatile unsigned char last_level = 0;
 
-// RF433解码参数（1527协议，基于19.csv逻辑分析仪实测）
-// 同步: >10ms低电平 标记帧开始 (实测~12-14ms)
-// EOB: >37ms低电平标记按键释放 (实测~38ms)
-// 数据: 24bit PWM (1527标准), 每bit = HIGH + LOW, 周期~1.6ms
-// Bit 1: HIGH~1.2ms(67 ticks) + LOW~0.4ms(22 ticks), HIGH > LOW
-// Bit 0: HIGH~0.4ms(22 ticks) + LOW~1.2ms(67 ticks), HIGH < LOW
-// Timer2周期 = 18us
-#define SYNC_MIN         550   // ~10ms / 18us (实测最小675=12ms, 550留余量)
-#define EOB_MIN          2000  // ~36ms / 18us (实测最小2147=38ms, 2000防误判)
+// ============================================================
+// RF433解码参数（基于实测CSV数据分析）
+// ============================================================
+// Timer2周期: 18us (PR2=70, T2CON=0x04, T2CKPS=1:1)
+//
+// 同步头: 低约12ms + 高约1.2ms
+//   检测: 低>3ms 且 高在0.8~1.5ms区间
+//
+// 数据位: 每bit = 低约0.4ms + 高(约0.4ms→0, 约1.2ms→1)
+//   高>500us判1, 否则判0
+//
+// 用户码: 0xFFFF (实测0xFFFE, 1位容错)
+// 命令码: 期望值×2 (PT2262编码特征)
+
+#define SYNC_LOW_MIN     560   // >10ms: 10000/18≈556
+#define SYNC_HIGH_MIN    44    // >0.8ms: 800/18≈44
+#define SYNC_HIGH_MAX    90    // <1.5ms: 1500/18≈83
+#define BIT_THRESHOLD    28    // >500us: 500/18≈28
+#define BIT_MIN_WIDTH    10    // 滤除毛刺
 #define BIT_COUNT        24
-#define BIT_MIN_WIDTH    10    // 180us, 过滤噪声毛刺 (实测数据位最小21 ticks=378us)
 
 void rf433_init(void) {
+    rf_debug_state = 0;
+    rf_debug_sync = 0;
+    rf_debug_bits = 0;
+
     TRISB &= ~(1 << PIN_SHUT_BIT);
     ANSEL1 &= ~(1 << PIN_SHUT_BIT);
     PORTB &= ~(1 << PIN_SHUT_BIT);
@@ -42,17 +63,17 @@ void rf433_init(void) {
     TMR2IF = 0;
     TMR2IE = 1;
     INTCON |= (1 << 6);
-    T2CON = 0x05;
+    T2CON = 0x04;  // T2CKPS=00→1:1预分频, PR2=70→周期=71/4MHz≈18us
     TMR2 = 0;
     PR2 = 70;
 
     low_width = high_width = 0;
     last_level = 0;
     rf_syn = rf_num = 0;
+    rf_timeout = 0;
     code1 = code2 = code3 = 0;
     s = 0;
     rf433_received = 0;
-    high_captured = 0;
 }
 
 void rf433_turn_on(void) { PORTB &= ~(1 << PIN_SHUT_BIT); }
@@ -65,13 +86,8 @@ unsigned char rf433_has_command(void) {
 unsigned char rf433_get_command(void) { return rf433_command; }
 void rf433_clear_command(void) { rf433_command = 0; }
 
-// 重构的ISR：清晰的三段式状态机
 void rf433_timer_isr(void) {
-    unsigned char rf_level;
-    unsigned char data_bit;
-    unsigned char byte_idx;
-    unsigned char bit_pos;
-
+    PORTB ^= (1 << PIN_DEBUG_BIT);  // 翻转RB3，测量ISR频率
     TMR2IF = 0;
     TMR2ON = 0;
     TMR2 = 0;
@@ -79,86 +95,86 @@ void rf433_timer_isr(void) {
     TMR2ON = 1;
     isr_count++;
 
-    rf_level = (PORTA >> PIN_RF_DATA_BIT) & 1;
+    unsigned char rf_level = (PORTA >> PIN_RF_DATA_BIT) & 1;
 
     if (rf_level == last_level) {
-        // 同一电平持续，累加宽度
         if (rf_level == 0) {
             low_width++;
         } else {
             high_width++;
         }
     } else {
-        // 边沿变化
+        // ===== 边沿变化 =====
         if (rf_level == 1) {
-            // ===== 上升沿：低电平结束 =====
-            // 先检查EOB（长低电平 >36ms）
-            if (low_width >= EOB_MIN && rf_syn == 2) {
-                // EOB：按键发射结束，确认命令
-                if (!rf433_received && rf433_command != 0) {
-                    rf433_received = 1;
-                    s = 5000;
+            // 上升沿: 低电平时序结束
+            if (rf_syn == 0) {
+                if (low_width >= SYNC_LOW_MIN) {
+                    rf_syn = 1;  // 同步低有效，等待验证高电平
+                    rf_timeout = RF_RX_TIMEOUT;
                 }
-                rf_syn = 0;
-                rf_num = 0;
             }
-            // 检查同步头（10-36ms低电平，仅在idle状态）
-            else if (low_width >= SYNC_MIN && rf_syn == 0) {
-                // 同步头：开始新帧接收
-                rf_syn = 1;
-                rf_num = 0;
-                code1 = code2 = code3 = 0;
-                high_captured = 0;
-                prev_high = 0;
+            low_width = 0;
+            high_width = 0;
+        }
+        else {
+            // 下降沿: 高电平时序结束
+            if (rf_syn == 1) {
+                if (high_width >= SYNC_HIGH_MIN && high_width <= SYNC_HIGH_MAX) {
+                    rf_syn = 2;   // 同步有效，开始接收数据
+                    rf_num = 0;
+                    code1 = code2 = code3 = 0;
+                    rf_debug_state = 2;  // receiving
+                } else {
+                    rf_syn = 0;   // 无效同步
+                }
             }
-            // 数据位解码（仅在接收状态且未完成24bit）
-            else if (rf_syn == 1 && rf_num < BIT_COUNT) {
-                if (high_captured && prev_high >= BIT_MIN_WIDTH && low_width >= BIT_MIN_WIDTH) {
-                    // 解码bit: HIGH>LOW为1，HIGH<LOW为0
-                    if (prev_high > low_width) {
-                        data_bit = 1;
-                    } else {
-                        data_bit = 0;
-                    }
-                    // 存入code
+            else if (rf_syn == 2) {
+                if (high_width >= BIT_MIN_WIDTH) {
+                    unsigned char data_bit = (high_width > BIT_THRESHOLD) ? 1 : 0;
+
                     if (data_bit) {
-                        byte_idx = rf_num / 8;
-                        bit_pos = 7 - (rf_num % 8);
-                        if (byte_idx == 0) code1 |= (1 << bit_pos);
+                        unsigned char byte_idx = rf_num / 8;
+                        unsigned char bit_pos = 7 - (rf_num % 8);
+                        if (byte_idx == 0)      code1 |= (1 << bit_pos);
                         else if (byte_idx == 1) code2 |= (1 << bit_pos);
                         else if (byte_idx == 2) code3 |= (1 << bit_pos);
                     }
                     rf_num++;
-                    high_captured = 0;
-                }
-                // 检查是否完成24bit
-                if (rf_num >= BIT_COUNT) {
-                    rf433_24bit_received = 1;
-                    rf433_debug = (code1 << 8) | code2;
-                    // 验证客户码和命令码
-                    if (code1 == 0xFF && code2 == 0xFF &&
-                        (code3 == 0x01 || code3 == 0x03 || code3 == 0x04 ||
-                         code3 == 0x05 || code3 == 0x06 || code3 == 0x07 || code3 == 0x09 ||
-                         code3 == 0x0B || code3 == 0x0C || code3 == 0x0D || code3 == 0x0E ||
-                         code3 == 0x0F || code3 == 0x10 || code3 == 0x11 || code3 == 0x12 ||
-                         code3 == 0x13 || code3 == 0x15)) {
-                        rf433_command = code3;
-                        rf_syn = 2;  // 等待EOB确认
+
+                    if (rf_num >= BIT_COUNT) {
+                        rf433_24bit_received = 1;
+                        rf_debug_bits = rf_num;
+                        rf433_debug = (code1 << 8) | code2;
+                        rf_debug_state = 3;  // done
+
+                        if ((code1 & 0xF0) == 0xF0 &&
+                            code3 >= 0x02 && code3 <= 0x2A) {
+                            rf433_command = code3;
+                            rf433_received = 1;
+                            s = 5000;
+                            rf_debug_state = 4;  // cmd valid
+                        }
+                        rf_syn = 0;
+                        rf_num = 0;
                     }
-                    rf_num = 0;
                 }
             }
             high_width = 0;
-        } else {
-            // ===== 下降沿：高电平结束 =====
-            if (rf_syn == 1 && rf_num < BIT_COUNT) {
-                prev_high = high_width;
-                high_captured = 1;
-            }
             low_width = 0;
         }
         last_level = rf_level;
     }
 
+    // 接收标志自动清除
     if (rf433_received) { if (s > 0) s--; if (s == 0) rf433_received = 0; }
+
+    // 接收超时处理
+    if (rf_syn != 0 && rf_timeout > 0) {
+        rf_timeout--;
+        if (rf_timeout == 0) {
+            rf_syn = 0;
+            rf_num = 0;
+            rf_debug_state = 0;  // timeout
+        }
+    }
 }

@@ -11,6 +11,7 @@
 #define PIN_SHUT_BIT    4    // RB4 bit position - RF SHUT
 #define PIN_LED_POWER_BIT 1  // RA1 bit position - WS2812供电控制
 #define PIN_WS2812B_BIT 7    // RB7 bit position - WS2812数据
+#define PIN_DEBUG_BIT    3    // RB3 bit position - 调试测试引脚
 
 #define PIN_KEY_READ()  ((PORTA >> PIN_KEY_BIT) & 1)
 #define PIN_SHUT_LOW()  PORTB &= ~(1 << PIN_SHUT_BIT)

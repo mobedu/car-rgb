@@ -10,6 +10,7 @@ unsigned char power_state = 1;
 static unsigned char lights_on = 1;  // 遥控OFF只关灯，不关机
 static unsigned char key_pressed = 0;
 static unsigned int  key_press_counter = 0;
+static unsigned char debug_latch = 0;  // RF433调试
 
 static void system_clock_init(void) {
     OSCCON = 0x70;
@@ -35,6 +36,11 @@ static void gpio_init(void) {
     TRISB &= ~(1 << PIN_SHUT_BIT);
     ANSEL1 &= ~(1 << PIN_SHUT_BIT);
     PIN_SHUT_LOW();
+
+    // RB3: 调试引脚，输出低 (Timer2频率输出)
+    TRISB &= ~(1 << PIN_DEBUG_BIT);
+    ANSEL1 &= ~(1 << PIN_DEBUG_BIT);
+    PORTB &= ~(1 << PIN_DEBUG_BIT);
 
     // 按键引脚: RA5
     TRISA |= (1 << 5);
@@ -133,6 +139,21 @@ void main(void) {
             }
         }
 
+        // ===== RF433调试: 非阻塞LED指示 =====
+        if (rf433_24bit_received) {
+            leds[2].r = 255; leds[2].g = 0; leds[2].b = 0;
+            leds[3].r = (code2 != 0) ? 255 : 0;
+            leds[3].g = (code3 != 0) ? 255 : 0;
+            leds[3].b = 0;
+            if (code1 == 0xFF && code2 == 0xFF) {
+                leds[4].r = 255; leds[4].g = 0; leds[4].b = 255;
+            } else {
+                leds[4].r = 0; leds[4].g = 0; leds[4].b = 0;
+            }
+            debug_latch = 200;
+            rf433_24bit_received = 0;
+        }
+
         // ===== 按键扫描 =====
         if (PIN_KEY_READ() == 0) {
             if (!key_pressed) {
@@ -178,7 +199,11 @@ void main(void) {
 
         // ===== 效果更新 + 刷新LED =====
         if (power_state && lights_on) {
-            effects_update();
+            if (debug_latch > 0) {
+                debug_latch--;
+            } else {
+                effects_update();
+            }
             if (++frame_cnt >= 10) {
                 frame_cnt = 0;
                 ws2812_update(leds, LED_COUNT);
