@@ -17,7 +17,7 @@ static unsigned int  tick = 0;               // 动画计时器 (~1ms/tick)
 
 // ========== 模式2: 慢闪 (~1Hz) ==========
 static unsigned char sf_on = 1;
-#define SLOW_FLASH_MS  500
+#define SLOW_FLASH_MS  250
 
 // ========== 模式3: 快闪 (~4Hz) ==========
 static unsigned char ff_on = 1;
@@ -27,13 +27,13 @@ static unsigned char ff_on = 1;
 static unsigned char br_val = 0;
 static unsigned char br_dir = 1;   // 1=渐亮, 0=渐暗
 static unsigned char br_col = 0;   // 当前颜色索引
-#define BREATH_STEP_MS   8
-#define BREATH_STEP_VAL  8
+#define BREATH_STEP_MS   12
+#define BREATH_STEP_VAL  3
 
 // ========== 模式5: 慢闪幻彩 ==========
 static unsigned char sr_on = 1;
 static unsigned char sr_col = 0;
-#define SLOW_RAINBOW_MS  500
+#define SLOW_RAINBOW_MS  250
 
 // ========== 模式6: 快闪幻彩 ==========
 static unsigned char fr_on = 1;
@@ -42,7 +42,7 @@ static unsigned char fr_col = 0;
 
 // ========== 模式7: 警示 (红蓝交替快闪) ==========
 static unsigned char pol_state = 0;  // 0=红, 1=蓝
-#define POLICE_MS  125
+#define POLICE_MS  62
 
 // ========== 模式8: 跑马 ==========
 // 阶段0: 追逐(单颗灯珠跑一圈)
@@ -182,23 +182,35 @@ void effects_update(void) {
             }
             break;
 
-        // ===== 模式4: 呼吸 (十色自动循环) =====
+        // ===== 模式4: 呼吸 (多色依次) =====
         case 4:
             if (tick >= BREATH_STEP_MS) {
                 tick = 0;
                 if (br_dir) {
-                    br_val += BREATH_STEP_VAL;
-                    if (br_val >= 248) { br_val = 255; br_dir = 0; }
+                    // 渐亮阶段：0 → 255
+                    if (br_val < 255) {
+                        br_val += BREATH_STEP_VAL;
+                        if (br_val >= 255) {
+                            br_val = 255;
+                            br_dir = 0;  // 已达最亮，转向渐暗
+                        }
+                    }
                 } else {
-                    if (br_val <= BREATH_STEP_VAL) {
-                        br_val = 0;
-                        br_dir = 1;
+                    // 渐暗阶段：255 → 0
+                    if (br_val > 0) {
+                        if (br_val >= BREATH_STEP_VAL)
+                            br_val -= BREATH_STEP_VAL;
+                        else
+                            br_val = 0;
+                    }
+                    // 只有亮度真正为0时才切换颜色
+                    if (br_val == 0) {
+                        br_dir = 1;  // 转向渐亮
                         if (++br_col >= 10) br_col = 0;
-                    } else {
-                        br_val -= BREATH_STEP_VAL;
                     }
                 }
             }
+            // 计算当前颜色强度 (0-255)
             r = ((unsigned int)pal_r[br_col] * br_val) / 255;
             g = ((unsigned int)pal_g[br_col] * br_val) / 255;
             b = ((unsigned int)pal_b[br_col] * br_val) / 255;
