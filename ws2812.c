@@ -20,7 +20,12 @@ static void send_byte(unsigned char b) {
 
 void ws2812_update(RGB_t *leds, unsigned char n) {
     unsigned char i;
-    INTCON &= ~(1 << 7);  // GIE = 0
+    unsigned char saved_intcon;
+    // 保存当前中断设置
+    saved_intcon = INTCON;
+    // 禁用所有中断 (GIE和PEIE)
+    INTCON &= ~((1 << 7) | (1 << 6));
+
     for (i = 0; i < n; i++) {
         send_byte(leds[i].g);
         send_byte(leds[i].r);
@@ -28,5 +33,6 @@ void ws2812_update(RGB_t *leds, unsigned char n) {
     }
     PORTB &= ~(1 << PIN_WS2812B_BIT);
     for (i = 0; i < 200; i++) __ws_dly = 0;
-    INTCON |= (1 << 7);   // GIE = 1
+    // 恢复中断设置
+    INTCON = saved_intcon;
 }

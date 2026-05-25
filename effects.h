@@ -6,6 +6,9 @@
 #define BRIGHTNESS_LEVELS  10
 #define BRIGHTNESS_DEFAULT 10
 
+// 电池动态亮度上限 (由main.c从电池ADC计算并更新)
+extern unsigned char max_brightness_limit;
+
 void effects_init(void);
 void effects_set_mode(unsigned char mode);   // 1-8
 void effects_next_color(void);               // 同模式切颜色(模式1-3)

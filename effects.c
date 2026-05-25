@@ -7,6 +7,7 @@ static const unsigned char pal_b[10] = {0,255,0,0,255,255,0,128,255,255};
 
 // ========== 全局状态 ==========
 unsigned char color_index = 9;               // 默认混白
+unsigned char max_brightness_limit = 255;    // 电池动态亮度上限
 
 static unsigned char effect_mode = 1;        // 当前模式 1-8
 static unsigned char brightness = BRIGHTNESS_DEFAULT;
@@ -17,32 +18,32 @@ static unsigned int  tick = 0;               // 动画计时器 (~1ms/tick)
 
 // ========== 模式2: 慢闪 (~1Hz) ==========
 static unsigned char sf_on = 1;
-#define SLOW_FLASH_MS  250
+#define SLOW_FLASH_MS  100       // 约1000ms
 
 // ========== 模式3: 快闪 (~4Hz) ==========
 static unsigned char ff_on = 1;
-#define FAST_FLASH_MS  125
+#define FAST_FLASH_MS  25       // 约250ms
 
 // ========== 模式4: 呼吸 (十色自动呼吸) ==========
 static unsigned char br_val = 0;
 static unsigned char br_dir = 1;   // 1=渐亮, 0=渐暗
 static unsigned char br_col = 0;   // 当前颜色索引
-#define BREATH_STEP_MS   12
-#define BREATH_STEP_VAL  3
+#define BREATH_STEP_MS   5        // 每10ms执行，约50ms一步
+#define BREATH_STEP_VAL  5         // 每次+5，约500ms从0到255
 
 // ========== 模式5: 慢闪幻彩 ==========
 static unsigned char sr_on = 1;
 static unsigned char sr_col = 0;
-#define SLOW_RAINBOW_MS  250
+#define SLOW_RAINBOW_MS  100      // 约1000ms
 
 // ========== 模式6: 快闪幻彩 ==========
 static unsigned char fr_on = 1;
 static unsigned char fr_col = 0;
-#define FAST_RAINBOW_MS  125
+#define FAST_RAINBOW_MS  25      // 约250ms
 
 // ========== 模式7: 警示 (红蓝交替快闪) ==========
 static unsigned char pol_state = 0;  // 0=红, 1=蓝
-#define POLICE_MS  62
+#define POLICE_MS  6          // 约60ms (~8Hz)
 
 // ========== 模式8: 跑马 ==========
 // 阶段0: 追逐(单颗灯珠跑一圈)
@@ -52,17 +53,26 @@ static unsigned char mq_phase = 0;   // 0=追逐, 1=旋转, 2=熄灭
 static unsigned char mq_pos = 0;
 static unsigned char mq_rot_count = 0;
 static unsigned char mq_rot_step = 0;
-#define MARQUEE_CHASE_MS   200
-#define MARQUEE_ROTATE_MS  100
-#define MARQUEE_OFF_MS     200
+#define MARQUEE_CHASE_MS   20       // 约200ms
+#define MARQUEE_ROTATE_MS  10       // 约100ms
+#define MARQUEE_OFF_MS     20       // 约200ms
 
-// ========== 亮度缩放 ==========
+// ========== 亮度缩放 (根据电池动态亮度上限) ==========
 static void apply_brightness(unsigned char *r, unsigned char *g, unsigned char *b) {
-    if (brightness >= 10) return;
-    if (brightness == 0) { *r = *g = *b = 0; return; }
-    *r = ((unsigned int)(*r) * brightness) / 10;
-    *g = ((unsigned int)(*g) * brightness) / 10;
-    *b = ((unsigned int)(*b) * brightness) / 10;
+    unsigned char limit = max_brightness_limit;
+
+    // 用户brightness级别(0-10) -> 实际亮度上限(0-255)
+    if (brightness < 10) {
+        limit = (limit * brightness) / 10;
+    }
+
+    if (limit == 0 || *r + *g + *b == 0) { *r = *g = *b = 0; return; }
+    if (limit == 255 && brightness == 10) return;  // 最大亮度，跳过计算
+
+    // 计算缩放后的实际亮度
+    *r = ((unsigned int)(*r) * limit) / 255;
+    *g = ((unsigned int)(*g) * limit) / 255;
+    *b = ((unsigned int)(*b) * limit) / 255;
 }
 
 // ========== 辅助: 全部LED设同一颜色 ==========
@@ -182,43 +192,29 @@ void effects_update(void) {
             }
             break;
 
-        // ===== 模式4: 呼吸 (多色依次) =====
+// ===== 模式4: 呼吸 =====
+// 去掉了apply_brightness，直接在计算中搞定亮度
         case 4:
             if (tick >= BREATH_STEP_MS) {
                 tick = 0;
                 if (br_dir) {
-                    // 渐亮阶段：0 → 255
-                    if (br_val < 255) {
-                        br_val += BREATH_STEP_VAL;
-                        if (br_val >= 255) {
-                            br_val = 255;
-                            br_dir = 0;  // 已达最亮，转向渐暗
-                        }
-                    }
+                    br_val += BREATH_STEP_VAL;
+                    if (br_val >= 250) { br_val = 255; br_dir = 0; }
                 } else {
-                    // 渐暗阶段：255 → 0
-                    if (br_val > 0) {
-                        if (br_val >= BREATH_STEP_VAL)
-                            br_val -= BREATH_STEP_VAL;
-                        else
-                            br_val = 0;
-                    }
-                    // 只有亮度真正为0时才切换颜色
-                    if (br_val == 0) {
-                        br_dir = 1;  // 转向渐亮
-                        if (++br_col >= 10) br_col = 0;
-                    }
+                    br_val -= BREATH_STEP_VAL;
+                    if (br_val < 10) { br_val = 0; br_dir = 1; if (++br_col >= 10) br_col = 0; }
                 }
             }
-            // 计算当前颜色强度 (0-255)
-            r = ((unsigned int)pal_r[br_col] * br_val) / 255;
-            g = ((unsigned int)pal_g[br_col] * br_val) / 255;
-            b = ((unsigned int)pal_b[br_col] * br_val) / 255;
-            apply_brightness(&r, &g, &b);
+            // 简化计算：使用两次乘法代替一次大数除法
+            {
+                unsigned char dim;  // br_val × max / 256 (0-255)
+                dim = (br_val * max_brightness_limit) >> 8;
+                r = (pal_r[br_col] * dim) >> 8;
+                g = (pal_g[br_col] * dim) >> 8;
+                b = (pal_b[br_col] * dim) >> 8;
+            }
             fill_all(r, g, b);
-            break;
-
-        // ===== 模式5: 慢闪幻彩 =====
+            break;        // ===== 模式5: 慢闪幻彩 =====
         case 5:
             if (tick >= SLOW_RAINBOW_MS) {
                 tick = 0;
