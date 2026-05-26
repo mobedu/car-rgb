@@ -12,5 +12,7 @@ void timer0_tick(void);
 extern volatile unsigned int timer_ticks;       // Increments every ~16.4ms
 extern volatile unsigned int timer_seconds;      // Increments every ~1 second
 extern volatile unsigned char timer_triggered;    // Set each second
+extern volatile unsigned int no_vibr_timer_ticks;
+extern volatile unsigned int no_vibr_timer_seconds;
 
 #endif

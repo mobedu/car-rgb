@@ -4,6 +4,10 @@ volatile unsigned int timer_ticks = 0;       // Increments every ~16.4ms
 volatile unsigned int timer_seconds = 0;      // Increments every ~1 second
 volatile unsigned char timer_triggered = 0;   // Set each second
 
+// 无震动专用: 独立的30秒计时 (不使用timer_triggered)
+volatile unsigned int no_vibr_timer_ticks = 0;
+volatile unsigned int no_vibr_timer_seconds = 0;
+
 // Timer0: 1:256 prescaler, Fosc/4 internal clock
 // At 16MHz: TMR0 increments every 0.25µs
 // 256 counts × 0.25µs × 256 prescaler = 16.384ms per overflow
@@ -14,6 +18,8 @@ void timer0_init(void) {
     timer_ticks = 0;
     timer_seconds = 0;
     timer_triggered = 0;
+    no_vibr_timer_ticks = 0;
+    no_vibr_timer_seconds = 0;
 
     // OPTION_REG configuration:
     // Bit7 T0LSE_EN=0: T0CS source
@@ -32,5 +38,12 @@ void timer0_tick(void) {
         timer_ticks = 0;
         timer_seconds++;
         timer_triggered = 1;
+    }
+
+    // 无震动专用计时
+    no_vibr_timer_ticks++;
+    if (no_vibr_timer_ticks >= TIMER0_OVERFLOWS_PER_SEC) {
+        no_vibr_timer_ticks = 0;
+        no_vibr_timer_seconds++;
     }
 }

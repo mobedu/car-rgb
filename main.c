@@ -6,11 +6,12 @@
 #include "power.h"
 #include "rf433.h"
 #include "timer.h"
-//#include "vibration.h"  // 临时禁用震动开关
+#include "vibration.h"
 
 unsigned char power_state = 1;
 static unsigned char lights_on = 1;  // 遥控OFF只关灯，不关机
 static unsigned char lights_off_by_user = 0;  // 用户手动关灯标志
+static unsigned char lights_off_by_timer = 0;  // 遥控定时关灯标志
 static unsigned char key_pressed = 0;
 static unsigned int  key_press_counter = 0;
 static unsigned char last_brightness = 0;
@@ -20,6 +21,9 @@ static unsigned char timer_off_indicator = 0;  // 定时取消指示标志
 static unsigned int timer_countdown = 0;      // 倒计时计数器 (每秒+1)
 static unsigned int timer_target = 0;         // 已设置的定时秒数
 #define TIMER_MAX_SECONDS timer_target        // 目标秒数
+
+// 无震动定时功能 (独立于遥控器定时)
+static unsigned int no_vibr_target = 30;     // 无震动目标30秒
 
 static void system_clock_init(void) {
     OSCCON = 0x70;
@@ -93,6 +97,7 @@ void main(void) {
     gpio_init();
     rf433_init();
     timer0_init();
+    vibration_init();
     effects_init();
 
     power_state = 1;
@@ -115,10 +120,12 @@ void main(void) {
                 case RF_CMD_ON:
                     lights_on = 1;
                     lights_off_by_user = 0;
+                    lights_off_by_timer = 0;
                     PIN_LED_POWER_ON();
                     if (!power_state) {
                         power_state = 1;
                     }
+                    no_vibr_timer_seconds = 0;  // 重置无震动计时
                     break;
 
                 case RF_CMD_OFF:
@@ -128,6 +135,9 @@ void main(void) {
                     power_off_leds(leds);
                     ws2812_update(leds, LED_COUNT);
                     PIN_LED_POWER_OFF();
+                    timer_target = 0;
+                    timer_countdown = 0;
+                    no_vibr_timer_seconds = 0;  // 取消无震动定时
                     break;
 
                 case RF_CMD_MODE_1:  effects_set_mode(1); break;
@@ -182,10 +192,12 @@ void main(void) {
                     // 长按2秒: 开关机
                     power_state = !power_state;
                     lights_on = power_state;
+                    no_vibr_timer_seconds = 0;  // 重置无震动计时
                     if (power_state) {
                         // 开机: 恢复系统时钟和GPIO，重新使能外设
                         system_clock_init();
                         gpio_init();
+                        lights_off_by_timer = 0;  // 开机清除定时关灯标志
                         // gpio_init已设置RA1=1
                     } else {
                         // 关机: 先关灯，再关RA1电源
@@ -208,6 +220,30 @@ void main(void) {
                 }
                 key_pressed = 0;
                 key_press_counter = 0;
+            }
+        }
+
+        // ===== 震动检测 =====
+        vibration_check();
+        if (vibration_detected()) {
+            // 检测到震动，开灯或重置无震动计时
+            if (!lights_on && !lights_off_by_timer) {
+                lights_on = 1;
+                lights_off_by_user = 0;
+                PIN_LED_POWER_ON();
+            }
+            no_vibr_timer_seconds = 0;
+        }
+
+        // ===== 无震动定时处理 =====
+        if (lights_on) {
+            if (no_vibr_timer_seconds >= no_vibr_target) {
+                // 30秒无震动，关灯
+                lights_on = 0;
+                power_off_leds(leds);
+                ws2812_update(leds, LED_COUNT);
+                PIN_LED_POWER_OFF();
+                no_vibr_timer_seconds = 0;
             }
         }
 
@@ -242,7 +278,7 @@ void main(void) {
                 if (timer_countdown >= TIMER_MAX_SECONDS) {
                     // 时间到，关闭灯
                     lights_on = 0;
-                    lights_off_by_user = 0;  // 定时关灯不算用户关灯
+                    lights_off_by_timer = 1;  // 标记为定时关灯
                     power_off_leds(leds);
                     ws2812_update(leds, LED_COUNT);
                     PIN_LED_POWER_OFF();
