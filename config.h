@@ -21,6 +21,10 @@
 #define PIN_WS2812B_LOW()  PORTB &= ~(1 << PIN_WS2812B_BIT)
 #define PIN_WS2812B_HIGH() PORTB |= (1 << PIN_WS2812B_BIT)
 
+// 震动检测参数
+#define VIBR_SAMPLE_COUNT   8    // 采样缓冲大小
+#define VIBR_THRESHOLD      2     // 触发阈值 (下降沿次数)
+
 // ========== ADC 配置 ==========
 #define PIN_BAT_ADC      RB0      // 电池电压检测 (AN8)
 #define PIN_CDS_ADC      RB2      // 光敏电阻检测 (AN10)
