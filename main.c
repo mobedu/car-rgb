@@ -96,17 +96,18 @@ void main(void) {
             switch (cmd) {
                 case RF_CMD_ON:
                     lights_on = 1;
+                    PIN_LED_POWER_ON();
                     if (!power_state) {
                         power_state = 1;
-                        PIN_LED_POWER_ON();
                     }
                     break;
 
                 case RF_CMD_OFF:
-                    // 只关灯，不关机（保持RF接收）
+                    // 关灯并关闭LED供电（低功耗）
                     lights_on = 0;
                     power_off_leds(leds);
                     ws2812_update(leds, LED_COUNT);
+                    PIN_LED_POWER_OFF();
                     break;
 
                 case RF_CMD_MODE_1:  effects_set_mode(1); break;
@@ -155,10 +156,12 @@ void main(void) {
                     power_state = !power_state;
                     lights_on = power_state;
                     if (power_state) {
-                        PIN_LED_POWER_ON();
+                        // 开机: 恢复系统时钟和GPIO，重新使能外设
                         system_clock_init();
                         gpio_init();
+                        // gpio_init已设置RA1=1
                     } else {
+                        // 关机: 先关灯，再关RA1电源
                         power_off_leds(leds);
                         ws2812_update(leds, LED_COUNT);
                         PIN_LED_POWER_OFF();
