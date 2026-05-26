@@ -5,6 +5,13 @@
 #define USE_16MHZ        1
 #define LED_COUNT        10
 
+#define USE_16MHZ          1
+#if USE_16MHZ
+#define _XTAL_FREQ         16000000UL
+#else
+#define _XTAL_FREQ         4000000UL
+#endif
+
 // ========== 引脚定义 (按 PIN.md，SC8F073更新) ==========
 #define PIN_KEY_BIT     5    // RA5 bit position - 按键
 #define PIN_RF_DATA_BIT 0    // RA0 bit position - RF数据
@@ -74,6 +81,6 @@ typedef struct {
 } RGB_t;
 
 extern RGB_t leds[LED_COUNT];
-extern unsigned char color_index;
+extern volatile unsigned char color_index;
 
 #endif

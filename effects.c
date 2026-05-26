@@ -6,11 +6,11 @@ static const unsigned char pal_g[10] = {0,0,255,128,255,0,255,0,128,255};
 static const unsigned char pal_b[10] = {0,255,0,0,255,255,0,128,255,255};
 
 // ========== 全局状态 ==========
-unsigned char color_index = 9;               // 默认混白
+volatile unsigned char color_index = 9;               // 默认混白
 
-static unsigned char effect_mode = 1;        // 当前模式 1-8
-static unsigned char brightness = BRIGHTNESS_DEFAULT;
-static unsigned int  tick = 0;               // 动画计时器 (~1ms/tick)
+volatile unsigned char effect_mode = 1;        // 当前模式 1-8
+volatile unsigned char brightness = BRIGHTNESS_DEFAULT;
+volatile unsigned int  tick = 0;               // 动画计时器 (~1ms/tick)
 
 // ========== 模式1: 常亮 ==========
 // 无动画状态，每次update重新渲染（跟随亮度变化）
@@ -60,9 +60,10 @@ static unsigned char mq_rot_step = 0;
 static void apply_brightness(unsigned char *r, unsigned char *g, unsigned char *b) {
     if (brightness >= 10) return;
     if (brightness == 0) { *r = *g = *b = 0; return; }
-    *r = ((unsigned int)(*r) * brightness) / 10;
-    *g = ((unsigned int)(*g) * brightness) / 10;
-    *b = ((unsigned int)(*b) * brightness) / 10;
+    // 四舍五入避免整数除法截断误差导致颜色畸变
+    *r = ((unsigned int)(*r) * brightness + 5) / 10;
+    *g = ((unsigned int)(*g) * brightness + 5) / 10;
+    *b = ((unsigned int)(*b) * brightness + 5) / 10;
 }
 
 // ========== 辅助: 全部LED设同一颜色 ==========

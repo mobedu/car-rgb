@@ -17,6 +17,6 @@ unsigned char effects_get_brightness(void);
 
 // 由main.c持有，effects模块直接操作
 extern RGB_t leds[LED_COUNT];
-extern unsigned char color_index;  // 0-9: 10种颜色
+extern volatile unsigned char color_index;  // 0-9: 10种颜色
 
 #endif

@@ -3,8 +3,10 @@
 
 volatile unsigned char __ws_dly;
 
+// WS2812 timing (16MHz)
+// T0H ≈ 0.26us (4 cycles), T1H ≈ 0.62us (10 cycles)
 #define S0  PORTB |= (1 << PIN_WS2812B_BIT); __ws_dly = 0; PORTB &= ~(1 << PIN_WS2812B_BIT)
-#define S1  PORTB |= (1 << PIN_WS2812B_BIT); __ws_dly = 0; __ws_dly = 0; __ws_dly = 0; PORTB &= ~(1 << PIN_WS2812B_BIT)
+#define S1  PORTB |= (1 << PIN_WS2812B_BIT); __ws_dly = 0; __ws_dly = 0; __ws_dly = 0; __ws_dly = 0; PORTB &= ~(1 << PIN_WS2812B_BIT)
 
 static void send_byte(unsigned char b) {
     if (b & 0x80) { S1; } else { S0; }

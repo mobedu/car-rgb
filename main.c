@@ -10,9 +10,12 @@ unsigned char power_state = 1;
 static unsigned char lights_on = 1;  // 遥控OFF只关灯，不关机
 static unsigned char key_pressed = 0;
 static unsigned int  key_press_counter = 0;
+static unsigned char last_brightness = 0;
 
 static void system_clock_init(void) {
     OSCCON = 0x70;
+	// debug hz
+	__delay_ms(100);
 }
 
 static void gpio_init(void) {
@@ -186,10 +189,16 @@ void main(void) {
 
         // ===== 效果更新 + 刷新LED =====
         if (power_state && lights_on) {
-            effects_update();
-            if (++frame_cnt >= 10) {
-                frame_cnt = 0;
+            if (effects_get_brightness() != last_brightness) {
+                effects_update();
+                last_brightness = effects_get_brightness();
                 ws2812_update(leds, LED_COUNT);
+            } else {
+                effects_update();
+                if (++frame_cnt >= 10) {
+                    frame_cnt = 0;
+                    ws2812_update(leds, LED_COUNT);
+                }
             }
         }
 
