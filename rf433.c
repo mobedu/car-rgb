@@ -147,11 +147,11 @@ void rf433_timer_isr(void) {
                         rf433_debug = (code1 << 8) | code2;
                         rf_debug_state = 3;  // done
 
-                        if (((code1 & 0xF0) == 0xF0 && code3 >= 0x02 && code3 <= 0x2A) ||
-                           (code1 == 0xFE && code3 == 0x54)) {  // 兼容0x54(0x27*2)
+                        if ((code1 & 0xF0) == 0xF0 &&
+                            code3 >= 0x02 && code3 <= 0x2A) {
                             rf433_command = code3;
                             rf433_received = 1;
-                            s = 8000;  // 延长有效期，约140ms
+                            s = 5000;
                             rf_debug_state = 4;  // cmd valid
                         }
                         rf_syn = 0;
