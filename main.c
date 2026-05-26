@@ -5,12 +5,21 @@
 #include "effects.h"
 #include "power.h"
 #include "rf433.h"
+#include "timer.h"
+//#include "vibration.h"  // 临时禁用震动开关
 
 unsigned char power_state = 1;
 static unsigned char lights_on = 1;  // 遥控OFF只关灯，不关机
+static unsigned char lights_off_by_user = 0;  // 用户手动关灯标志
 static unsigned char key_pressed = 0;
 static unsigned int  key_press_counter = 0;
 static unsigned char last_brightness = 0;
+static unsigned char timer_off_indicator = 0;  // 定时取消指示标志
+
+// 定时功能 (10秒/30秒/60秒，便于测试)
+static unsigned int timer_countdown = 0;      // 倒计时计数器 (每秒+1)
+static unsigned int timer_target = 0;         // 已设置的定时秒数
+#define TIMER_MAX_SECONDS timer_target        // 目标秒数
 
 static void system_clock_init(void) {
     OSCCON = 0x70;
@@ -70,6 +79,10 @@ void interrupt ISR(void) {
         TMR2IF = 0;
         rf433_timer_isr();
     }
+    if (T0IF) {
+        T0IF = 0;
+        timer0_tick();
+    }
 }
 
 void main(void) {
@@ -79,14 +92,16 @@ void main(void) {
     system_clock_init();
     gpio_init();
     rf433_init();
+    timer0_init();
     effects_init();
 
     power_state = 1;
     effects_update();
     ws2812_update(leds, LED_COUNT);
 
-    INTCON |= (1 << 7);
-    INTCON |= (1 << 6);   // PEIE=1 for Timer2
+    INTCON |= (1 << 7);  // GIE=1
+    INTCON |= (1 << 6);  // PEIE=1 for Timer2/Timer0
+    INTCON |= (1 << 5);  // T0IE=1 Enable Timer0 interrupt
 
     while (1) {
         asm("clrwdt");
@@ -99,6 +114,7 @@ void main(void) {
             switch (cmd) {
                 case RF_CMD_ON:
                     lights_on = 1;
+                    lights_off_by_user = 0;
                     PIN_LED_POWER_ON();
                     if (!power_state) {
                         power_state = 1;
@@ -108,6 +124,7 @@ void main(void) {
                 case RF_CMD_OFF:
                     // 关灯并关闭LED供电（低功耗）
                     lights_on = 0;
+                    lights_off_by_user = 1;
                     power_off_leds(leds);
                     ws2812_update(leds, LED_COUNT);
                     PIN_LED_POWER_OFF();
@@ -128,13 +145,20 @@ void main(void) {
                 case RF_CMD_RESET:
                     color_index = 9;
                     effects_set_mode(1);
+                    timer_target = 0;  // 取消定时
+                    timer_countdown = 0;
+                    timer_triggered = 0;
                     break;
 
-                // 定时命令暂不实现
-                case RF_CMD_TIME_4H:
-                case RF_CMD_TIME_6H:
-                case RF_CMD_TIME_8H:
+                // 定时命令 (10秒/30秒/60秒，便于测试)
+                case RF_CMD_TIME_4H: timer_target = 10; timer_countdown = 0; timer_triggered = 0; break;
+                case RF_CMD_TIME_6H: timer_target = 30; timer_countdown = 0; timer_triggered = 0; break;
+                case RF_CMD_TIME_8H: timer_target = 60; timer_countdown = 0; timer_triggered = 0; break;
                 case RF_CMD_TIME_OFF:
+                    timer_target = 0;
+                    timer_countdown = 0;
+                    timer_triggered = 0;
+                    timer_off_indicator = 100;  // 约1秒指示
                     break;
 
                 default:
@@ -187,6 +211,14 @@ void main(void) {
             }
         }
 
+        // ===== 定时取消指示 =====
+        if (timer_off_indicator > 0) {
+            timer_off_indicator--;
+            leds[LED_COUNT-1].r = 255;
+            leds[LED_COUNT-1].g = 0;
+            leds[LED_COUNT-1].b = 0;
+        }
+
         // ===== 效果更新 + 刷新LED =====
         if (power_state && lights_on) {
             if (effects_get_brightness() != last_brightness) {
@@ -200,6 +232,27 @@ void main(void) {
                     ws2812_update(leds, LED_COUNT);
                 }
             }
+        }
+
+        // ===== 定时器处理 =====
+        if (timer_target > 0) {
+            if (timer_triggered) {
+                timer_triggered = 0;
+                timer_countdown++;
+                if (timer_countdown >= TIMER_MAX_SECONDS) {
+                    // 时间到，关闭灯
+                    lights_on = 0;
+                    lights_off_by_user = 0;  // 定时关灯不算用户关灯
+                    power_off_leds(leds);
+                    ws2812_update(leds, LED_COUNT);
+                    PIN_LED_POWER_OFF();
+                    timer_target = 0;
+                    timer_countdown = 0;
+                }
+            }
+        } else {
+            timer_triggered = 0;  // 清除标志
+            timer_countdown = 0;    // 额外清除countdown
         }
 
         delay_ms(1);
